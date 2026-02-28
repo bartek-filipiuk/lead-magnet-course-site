@@ -1,0 +1,62 @@
+[
+  {
+    "order": 1,
+    "slug": "lekcja-01-pomysl-do-wymagan",
+    "title": "Lekcja 1: Od pomysłu do wymagań",
+    "description": "Zamieniasz pomysł w konkretne wymagania i scope MVP.",
+    "duration": "15-20 min",
+    "file": "lekcja-01-pomysl-do-wymagan.md",
+    "videoUrl": "",
+    "isBonus": false
+  },
+  {
+    "order": 2,
+    "slug": "lekcja-02-tech-stack-i-plan",
+    "title": "Lekcja 2: Tech stack i plan budowy",
+    "description": "Dobierasz prosty stack i rozbijasz projekt na etapy.",
+    "duration": "15-20 min",
+    "file": "lekcja-02-tech-stack-i-plan.md",
+    "videoUrl": "",
+    "isBonus": false
+  },
+  {
+    "order": 3,
+    "slug": "lekcja-03-vibe-coding",
+    "title": "Lekcja 3: Vibe coding — budowanie z AI",
+    "description": "Uruchamiasz projekt i prowadzisz AI task po tasku.",
+    "duration": "30-60 min",
+    "file": "lekcja-03-vibe-coding.md",
+    "videoUrl": "",
+    "isBonus": false
+  },
+  {
+    "order": 4,
+    "slug": "lekcja-04-git-testy-review",
+    "title": "Lekcja 4: Git, testy i przegląd kodu",
+    "description": "Domykasz jakość: Git, testy i szybki przegląd zmian.",
+    "duration": "30-45 min",
+    "file": "lekcja-04-git-testy-review.md",
+    "videoUrl": "",
+    "isBonus": false
+  },
+  {
+    "order": 5,
+    "slug": "lekcja-05-deploy-na-vps",
+    "title": "Lekcja 5: Deploy na VPS",
+    "description": "Wystawiasz aplikację pod domeną z HTTPS.",
+    "duration": "30 min",
+    "file": "lekcja-05-deploy-na-vps.md",
+    "videoUrl": "",
+    "isBonus": false
+  },
+  {
+    "order": 6,
+    "slug": "lekcja-06-rozwoj-po-deploy",
+    "title": "Lekcja 6 (Bonus): Rozwój po deployu",
+    "description": "Planujesz kolejne funkcje i rozwijasz produkt bez chaosu.",
+    "duration": "45-90 min",
+    "file": "lekcja-06-rozwoj-po-deploy.md",
+    "videoUrl": "",
+    "isBonus": true
+  }
+]

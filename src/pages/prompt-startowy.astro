@@ -1,0 +1,80 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const promptPath = path.resolve(process.cwd(), "content/prompts/AGENT_INIT_PROMPT.md");
+const promptText = fs.readFileSync(promptPath, "utf-8").trim();
+
+const courseUrl = "https://vibe.devince.dev";
+const discordUrl = "https://discord.gg/devince";
+const youtubeUrl = "https://youtube.com/@devince";
+---
+
+<BaseLayout
+  title="Prompt startowy: AGENT_INIT_PROMPT"
+  description="Gotowy prompt startowy do kursu + instrukcja jak go odpalić krok po kroku."
+>
+  <section class="hero prompt-hero">
+    <h1>Prompt startowy (to jest clue całego flow)</h1>
+    <p class="muted">
+      Ten prompt prowadzi agenta przez cały proces: od pomysłu i PRD, przez
+      plan i kodowanie, aż do deployu. Skopiuj go 1:1 i pracuj etapami.
+    </p>
+    <div class="inline-links">
+      <a href={courseUrl} target="_blank" rel="noreferrer">Otwórz kurs</a>
+      <a href={discordUrl} target="_blank" rel="noreferrer">Dołącz na Discord</a>
+      <a href={youtubeUrl} target="_blank" rel="noreferrer">Zobacz demo na YouTube</a>
+    </div>
+  </section>
+
+  <section class="prompt-grid">
+    <article class="info-card">
+      <h2>Jak to odpalić (wersja szybka)</h2>
+      <ol>
+        <li>Otwórz kurs na <strong>vibe.devince.dev</strong> i przeczytaj Lekcję 1.</li>
+        <li>Skopiuj prompt z tej strony do Claude/Codex/Cursor/Windsurf.</li>
+        <li>
+          Podaj agentowi jedno zdanie o pomyśle i pozwól mu poprowadzić Cię przez
+          fazy.
+        </li>
+        <li>Nie skacz między fazami. Domykaj etap i dopiero wtedy idź dalej.</li>
+      </ol>
+    </article>
+
+    <article class="info-card">
+      <h2>Co dobrze przygotować przed startem</h2>
+      <ul>
+        <li>repo na GitHubie (łatwiej zapisywać progres i wracać do stabilnej wersji),</li>
+        <li>90 minut spokojnego czasu na pierwszy przebieg,</li>
+        <li>
+          opcjonalnie: VPS, jeśli chcesz od razu wystawić apkę publicznie po
+          ukończeniu rdzenia kursu.
+        </li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="info-card">
+    <h2>Gdzie ludzie najczęściej się wykładają</h2>
+    <ul>
+      <li>proszą agenta o „zrób wszystko naraz” zamiast task po tasku,</li>
+      <li>pomijają testy i wracają do bugów po kilku dniach,</li>
+      <li>nie aktualizują dokumentacji po stage'u,</li>
+      <li>nie robią commitów po domkniętym kroku.</li>
+    </ul>
+    <p class="muted">
+      Jeśli utkniesz: wrzuć kontekst i błąd na Discorda. Szybciej ruszysz niż
+      próbując zgadywać.
+    </p>
+  </section>
+
+  <section class="info-card">
+    <h2>AGENT_INIT_PROMPT.md (copy/paste)</h2>
+    <p class="muted">
+      Skopiuj całość poniżej i wklej do swojego narzędzia AI jako prompt startowy.
+    </p>
+
+    <pre class="prompt-pre"><code>{promptText}</code></pre>
+  </section>
+</BaseLayout>

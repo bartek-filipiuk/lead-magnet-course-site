@@ -1,0 +1,27 @@
+---
+const { videoUrl, title } = Astro.props;
+const hasVideo = Boolean(videoUrl && videoUrl.trim().length > 0);
+---
+
+<section class="video-block" aria-labelledby="video-heading">
+  <h2 id="video-heading">Wideo do lekcji</h2>
+
+  {
+    hasVideo ? (
+      <div class="video-frame">
+        <iframe
+          src={videoUrl}
+          title={`Wideo: ${title}`}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        />
+      </div>
+    ) : (
+      <div class="video-placeholder">
+        <p>Tu będzie osadzony film do tej lekcji.</p>
+        <small>Uzupełnij pole <code>videoUrl</code> w <code>src/data/lessons.json</code>.</small>
+      </div>
+    )
+  }
+</section>

@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getAllLessons } from "../lib/course";
+
+const lessons = getAllLessons();
+
+const discordUrl = "https://discord.gg/devince";
+const youtubeUrl = "https://youtube.com/@devince";
+---
+
+<BaseLayout
+  title="Kurs: Od pomysłu do deploy"
+  description="Spis lekcji kursu i szybki dostęp do materiałów."
+>
+  <section class="hero">
+    <h1>Od pomysłu do deploy w weekend</h1>
+    <p class="muted">
+      Praktyczny kurs: od jednego pomysłu do działającej aplikacji pod własną
+      domeną.
+    </p>
+    <p>
+      Masz wszystko od razu: lekcje + prompt startowy. Wejdź w materiał, skopiuj
+      prompt i zacznij budowę jeszcze dziś.
+    </p>
+  </section>
+
+  <section>
+    <h2>Szybki start</h2>
+    <div class="grid quick-start-grid">
+      <a href="/prompt-startowy/" class="lesson-card quick-start-card">
+        <h3>1. Prompt startowy</h3>
+        <p class="muted">Skopiuj AGENT_INIT_PROMPT i odpal agenta krok po kroku.</p>
+      </a>
+      <a href={discordUrl} target="_blank" rel="noreferrer" class="lesson-card quick-start-card">
+        <h3>2. Discord (główne wsparcie)</h3>
+        <p class="muted">Wrzucaj pytania, błędy i screeny. Tu najszybciej odblokujesz progres.</p>
+      </a>
+      <a href={youtubeUrl} target="_blank" rel="noreferrer" class="lesson-card quick-start-card">
+        <h3>3. Demo na YouTube</h3>
+        <p class="muted">Zobacz, jak realnie koduję apkę na bazie tego prompta.</p>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Spis lekcji</h2>
+    <div class="grid">
+      {
+        lessons.map((lesson) => (
+          <a href={`/lekcja/${lesson.slug}/`} class="lesson-card">
+            <h3>{lesson.title}</h3>
+            <p class="muted">{lesson.description}</p>
+            <div class="lesson-meta">
+              <span class="badge">{lesson.duration}</span>
+              {lesson.isBonus ? <span class="badge">Bonus</span> : <span class="badge">Rdzeń</span>}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

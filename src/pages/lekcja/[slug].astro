@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LessonVideo from "../../components/LessonVideo.astro";
+import { getAllLessons, getLessonBySlug } from "../../lib/course";
+
+export function getStaticPaths() {
+  return getAllLessons().map((lesson) => ({
+    params: { slug: lesson.slug }
+  }));
+}
+
+const lesson = getLessonBySlug(Astro.params.slug);
+
+if (!lesson) {
+  throw new Error(`Nie znaleziono lekcji dla slug: ${Astro.params.slug}`);
+}
+
+const allLessons = getAllLessons();
+const currentIndex = allLessons.findIndex((item) => item.slug === lesson.slug);
+const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
+const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
+---
+
+<BaseLayout title={lesson.title} description={lesson.description}>
+  <article class="lesson-shell">
+    <header class="lesson-top">
+      <div class="meta-line">
+        <span class="badge">Lekcja {lesson.order}</span>
+        <span class="badge">{lesson.duration}</span>
+        {lesson.isBonus ? <span class="badge">Bonus</span> : null}
+      </div>
+      <h1>{lesson.title}</h1>
+      {lesson.preview ? <p class="muted">{lesson.preview}</p> : null}
+      {lesson.subject ? <p><strong>Temat maila:</strong> {lesson.subject}</p> : null}
+      <p class="muted lesson-helper">
+        Potrzebujesz szybkiego restartu? <a href="/prompt-startowy/">Prompt startowy</a> +
+        wsparcie na <a href="https://discord.gg/devince" target="_blank" rel="noreferrer">Discordzie</a>.
+      </p>
+    </header>
+
+    <LessonVideo videoUrl={lesson.videoUrl} title={lesson.title} />
+
+    <div class="lesson-main">
+      <section class="lesson-content" set:html={lesson.html} />
+
+      {
+        lesson.toc && lesson.toc.length > 0 ? (
+          <aside class="lesson-toc" aria-label="Spis sekcji lekcji">
+            <h2>Spis sekcji</h2>
+            <ol>
+              {lesson.toc.map((section) => <li><a href={`#${section.id}`}>{section.label}</a></li>)}
+            </ol>
+          </aside>
+        ) : null
+      }
+    </div>
+
+    <nav class="lesson-nav" aria-label="Nawigacja po lekcjach">
+      <div>
+        {
+          prevLesson ? (
+            <a href={`/lekcja/${prevLesson.slug}/`}>
+              ← {prevLesson.title}
+            </a>
+          ) : null
+        }
+      </div>
+      <div>
+        {
+          nextLesson ? (
+            <a href={`/lekcja/${nextLesson.slug}/`}>
+              {nextLesson.title} →
+            </a>
+          ) : null
+        }
+      </div>
+    </nav>
+  </article>
+</BaseLayout>
