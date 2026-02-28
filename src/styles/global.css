@@ -153,6 +153,24 @@ li {
   border-color: #b7cce4;
 }
 
+.video-section {
+  margin-bottom: 1.4rem;
+}
+
+.video-embed-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0f172a;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
 .prompt-hero {
   margin-bottom: 1rem;
 }

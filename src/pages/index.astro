@@ -4,8 +4,7 @@ import { getAllLessons } from "../lib/course";
 
 const lessons = getAllLessons();
 
-const discordUrl = "https://discord.gg/devince";
-const youtubeUrl = "https://youtube.com/@devince";
+const discordUrl = "https://discord.gg/mSSqkQWe4D";
 ---
 
 <BaseLayout
@@ -24,6 +23,12 @@ const youtubeUrl = "https://youtube.com/@devince";
     </p>
   </section>
 
+  <section class="video-section">
+    <div class="video-embed-placeholder">
+      <p>Film wkrótce</p>
+    </div>
+  </section>
+
   <section>
     <h2>Szybki start</h2>
     <div class="grid quick-start-grid">
@@ -33,11 +38,7 @@ const youtubeUrl = "https://youtube.com/@devince";
       </a>
       <a href={discordUrl} target="_blank" rel="noreferrer" class="lesson-card quick-start-card">
         <h3>2. Discord (główne wsparcie)</h3>
-        <p class="muted">Wrzucaj pytania, błędy i screeny. Tu najszybciej odblokujesz progres.</p>
-      </a>
-      <a href={youtubeUrl} target="_blank" rel="noreferrer" class="lesson-card quick-start-card">
-        <h3>3. Demo na YouTube</h3>
-        <p class="muted">Zobacz, jak realnie koduję apkę na bazie tego prompta.</p>
+        <p class="muted">Wrzucaj pytania, błędy i screeny.</p>
       </a>
     </div>
   </section>

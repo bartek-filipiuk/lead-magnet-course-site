@@ -3,3 +3,4 @@ dist
 .astro
 pdf
 .coolify.env
+src/pages/CLAUDE.md

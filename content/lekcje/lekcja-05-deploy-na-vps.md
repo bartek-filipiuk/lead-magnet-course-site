@@ -263,7 +263,7 @@ Jeśli chcesz rozwijać projekt dłużej niż pierwszy sprint, ten bonus bardzo 
 
 ### 1. Dołącz do społeczności
 Mamy Discord dla ludzi, którzy budują side projekty z AI:
-**[discord.gg/devince](https://discord.gg/devince)**
+**[discord.gg/mSSqkQWe4D](https://discord.gg/mSSqkQWe4D)**
 
 Podziel się swoim projektem, dostaniesz feedback.
 
