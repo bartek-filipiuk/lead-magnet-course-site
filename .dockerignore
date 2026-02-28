@@ -1,0 +1,7 @@
+node_modules
+.git
+.astro
+dist
+pdf
+.coolify.env
+.DS_Store
