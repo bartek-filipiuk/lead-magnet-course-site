@@ -3,78 +3,255 @@ import fs from "node:fs";
 import path from "node:path";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const promptPath = path.resolve(process.cwd(), "content/prompts/AGENT_INIT_PROMPT.md");
-const promptText = fs.readFileSync(promptPath, "utf-8").trim();
+const promptsDir = path.resolve(process.cwd(), "content/prompts");
+const agentPrompt = fs.readFileSync(path.join(promptsDir, "AGENT_INIT_PROMPT.md"), "utf-8").trim();
+const artifactChecklist = fs.readFileSync(path.join(promptsDir, "ARTIFACT_CHECKLIST.md"), "utf-8").trim();
+const verificationPrompt = fs.readFileSync(path.join(promptsDir, "VERIFICATION_PROMPT.md"), "utf-8").trim();
 
 const courseUrl = "https://vibe.devince.dev";
 const discordUrl = "https://discord.gg/mSSqkQWe4D";
 const youtubeUrl = "https://youtube.com/@devince";
+
+const files = [
+  {
+    id: "agent-init",
+    filename: "AGENT_INIT_PROMPT.md",
+    label: "Prompt startowy",
+    description: "Prowadzi agenta przez 5 faz: od pomyslu przez TDD do deploy. Zawiera GATE checkpointy, ktore blokuja przejscie do nastepnej fazy jesli brakuje artefaktow.",
+    content: agentPrompt,
+  },
+  {
+    id: "artifact-checklist",
+    filename: "ARTIFACT_CHECKLIST.md",
+    label: "Artifact Checklist",
+    description: "Referencyjny dokument z pelna lista wymaganych plikow per faza i kryteriami akceptacji. Agent odwoluje sie do niego przy kazdym GATE.",
+    content: artifactChecklist,
+  },
+  {
+    id: "verification-prompt",
+    filename: "VERIFICATION_PROMPT.md",
+    label: "Verification Prompt",
+    description: "Niezalezny prompt audytowy. Wklej go do DOWOLNEGO agenta w dowolnym momencie, zeby sprawdzic stan projektu i dostac raport co brakuje.",
+    content: verificationPrompt,
+  },
+];
 ---
 
 <BaseLayout
   title="Prompt startowy: AGENT_INIT_PROMPT"
-  description="Gotowy prompt startowy do kursu + instrukcja jak go odpalić krok po kroku."
+  description="3 pliki markdown ktore prowadza agenta AI przez caly proces budowania apki — od pomyslu do deploy."
 >
   <section class="hero prompt-hero">
-    <h1>Prompt startowy (to jest clue całego flow)</h1>
+    <h1>Pliki startowe (to jest clue calego flow)</h1>
     <p class="muted">
-      Ten prompt prowadzi agenta przez cały proces: od pomysłu i PRD, przez
-      plan i kodowanie, aż do deployu. Skopiuj go 1:1 i pracuj etapami.
+      3 pliki markdown, ktore prowadza agenta AI przez caly proces: od pomyslu
+      i PRD, przez plan i kodowanie z GATE checkpointami, az do deployu.
     </p>
     <div class="inline-links">
-      <a href={courseUrl} target="_blank" rel="noreferrer">Otwórz kurs</a>
-      <a href={discordUrl} target="_blank" rel="noreferrer">Dołącz na Discord</a>
+      <a href={courseUrl} target="_blank" rel="noreferrer">Otworz kurs</a>
+      <a href={discordUrl} target="_blank" rel="noreferrer">Dolacz na Discord</a>
       <a href={youtubeUrl} target="_blank" rel="noreferrer">Zobacz demo na YouTube</a>
     </div>
   </section>
 
+  <section class="info-card">
+    <h2>Jak to odpalic</h2>
+    <ol class="setup-steps">
+      <li>
+        <strong>Stworz pusty katalog</strong> na swoj projekt (np. <code>my-app/</code>).
+      </li>
+      <li>
+        <strong>Skopiuj 3 pliki</strong> z tej strony do katalogu projektu:
+        <div class="file-list">
+          <code>AGENT_INIT_PROMPT.md</code> — glowny prompt
+          <code>ARTIFACT_CHECKLIST.md</code> — lista artefaktow (agent czyta przy GATE)
+          <code>VERIFICATION_PROMPT.md</code> — niezalezny audyt (opcjonalnie, w dowolnym momencie)
+        </div>
+      </li>
+      <li>
+        <strong>Otworz agenta AI</strong> (Claude Code, Cursor, Windsurf) w tym katalogu i wklej:
+        <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj AGENT_INIT_PROMPT.md i ARTIFACT_CHECKLIST.md. Zacznij.</code></pre>
+      </li>
+      <li>
+        <strong>Podaj pomysl</strong> jednym zdaniem i pozwol agentowi prowadzic Cie przez fazy.
+      </li>
+    </ol>
+  </section>
+
   <section class="prompt-grid">
     <article class="info-card">
-      <h2>Jak to odpalić (wersja szybka)</h2>
-      <ol>
-        <li>Otwórz kurs na <strong>vibe.devince.dev</strong> i przeczytaj Lekcję 1.</li>
-        <li>Skopiuj prompt z tej strony do Claude/Codex/Cursor/Windsurf.</li>
-        <li>
-          Podaj agentowi jedno zdanie o pomyśle i pozwól mu poprowadzić Cię przez
-          fazy.
-        </li>
-        <li>Nie skacz między fazami. Domykaj etap i dopiero wtedy idź dalej.</li>
-      </ol>
-    </article>
-
-    <article class="info-card">
-      <h2>Co dobrze przygotować przed startem</h2>
+      <h2>Co dobrze przygotowac przed startem</h2>
       <ul>
-        <li>repo na GitHubie (łatwiej zapisywać progres i wracać do stabilnej wersji),</li>
+        <li>konto na GitHubie (latwiej zapisywac progres),</li>
         <li>90 minut spokojnego czasu na pierwszy przebieg,</li>
         <li>
-          opcjonalnie: VPS, jeśli chcesz od razu wystawić apkę publicznie po
-          ukończeniu rdzenia kursu.
+          opcjonalnie: VPS, jesli chcesz od razu wystawic apke publicznie po
+          ukonczeniu.
         </li>
       </ul>
     </article>
+
+    <article class="info-card">
+      <h2>Gdzie ludzie najczesciej sie wykladaja</h2>
+      <ul>
+        <li>prosza agenta o &bdquo;zrob wszystko naraz&rdquo; zamiast task po tasku,</li>
+        <li>pomijaja testy i wracaja do bugow po kilku dniach,</li>
+        <li>nie aktualizuja dokumentacji po stage'u,</li>
+        <li>nie robia commitow po domknietym kroku.</li>
+      </ul>
+      <p class="muted">
+        Jesli utkniesz: wrzuc kontekst i blad na Discorda.
+      </p>
+    </article>
   </section>
 
-  <section class="info-card">
-    <h2>Gdzie ludzie najczęściej się wykładają</h2>
-    <ul>
-      <li>proszą agenta o „zrób wszystko naraz” zamiast task po tasku,</li>
-      <li>pomijają testy i wracają do bugów po kilku dniach,</li>
-      <li>nie aktualizują dokumentacji po stage'u,</li>
-      <li>nie robią commitów po domkniętym kroku.</li>
-    </ul>
-    <p class="muted">
-      Jeśli utkniesz: wrzuć kontekst i błąd na Discorda. Szybciej ruszysz niż
-      próbując zgadywać.
-    </p>
-  </section>
-
-  <section class="info-card">
-    <h2>AGENT_INIT_PROMPT.md (copy/paste)</h2>
-    <p class="muted">
-      Skopiuj całość poniżej i wklej do swojego narzędzia AI jako prompt startowy.
-    </p>
-
-    <pre class="prompt-pre"><code>{promptText}</code></pre>
-  </section>
+  {files.map((file) => (
+    <section class="info-card prompt-file-section" id={file.id}>
+      <div class="prompt-file-header">
+        <div>
+          <h2>{file.filename}</h2>
+          <p class="muted">{file.description}</p>
+        </div>
+        <button
+          class="copy-btn"
+          data-target={file.id}
+          aria-label={`Skopiuj ${file.filename}`}
+        >
+          <span class="copy-btn__icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </span>
+          <span class="copy-btn__label">Kopiuj</span>
+        </button>
+      </div>
+      <pre class="prompt-pre" id={`content-${file.id}`}><code>{file.content}</code></pre>
+    </section>
+  ))}
 </BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const targetId = btn.dataset.target;
+      const codeEl = document.querySelector(`#content-${targetId} code`);
+      if (!codeEl) return;
+
+      try {
+        await navigator.clipboard.writeText(codeEl.textContent || "");
+        const label = btn.querySelector(".copy-btn__label");
+        if (label) {
+          const prev = label.textContent;
+          label.textContent = "Skopiowano!";
+          btn.classList.add("copy-btn--success");
+          setTimeout(() => {
+            label.textContent = prev;
+            btn.classList.remove("copy-btn--success");
+          }, 2000);
+        }
+      } catch {
+        // Fallback for older browsers
+        const textarea = document.createElement("textarea");
+        textarea.value = codeEl.textContent || "";
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+
+        const label = btn.querySelector(".copy-btn__label");
+        if (label) {
+          const prev = label.textContent;
+          label.textContent = "Skopiowano!";
+          btn.classList.add("copy-btn--success");
+          setTimeout(() => {
+            label.textContent = prev;
+            btn.classList.remove("copy-btn--success");
+          }, 2000);
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .setup-steps li {
+    margin-bottom: 0.8rem;
+  }
+
+  .file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin: 0.5rem 0 0.2rem;
+    padding-left: 0.2rem;
+  }
+
+  .file-list code {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.88em;
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 5px;
+  }
+
+  .prompt-pre--short {
+    max-height: none;
+    margin-top: 0.5rem;
+  }
+
+  .prompt-file-section {
+    scroll-margin-top: 90px;
+  }
+
+  .prompt-file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .prompt-file-header h2 {
+    margin: 0 0 0.3rem;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 1.15rem;
+  }
+
+  .prompt-file-header .muted {
+    margin: 0 0 0.8rem;
+    font-size: 0.92rem;
+  }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms ease;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .copy-btn--success {
+    border-color: #16a34a;
+    color: #16a34a;
+    background: #f0fdf4;
+  }
+
+  .copy-btn__icon {
+    display: flex;
+    align-items: center;
+  }
+</style>
