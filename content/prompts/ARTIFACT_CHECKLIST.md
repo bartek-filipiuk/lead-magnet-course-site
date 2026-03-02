@@ -8,13 +8,13 @@ Referencyjny dokument artefaktów wymaganych w każdej fazie projektu. AI odwoł
 
 | Plik | Wymagane sekcje | Kryterium akceptacji |
 |------|----------------|---------------------|
-| `PRD.md` | Wizja projektu / cele, User Stories z kryteriami akceptacji, Scope: co IN / co OUT, Zagrożenia / mini-threat model | User jednoznacznie zatwierdził dokument |
+| `PRD.md` | Wizja projektu / cele, User Stories z kryteriami akceptacji, Scope: co IN / co OUT, Zagrożenia / mini-threat model, Look & Feel (styl wizualny, layout, responsywność — lub "N/A" dla apek bez UI) | User jednoznacznie zatwierdził dokument |
 
 ## Po Phase 2
 
 | Plik | Wymagane sekcje | Kryterium akceptacji |
 |------|----------------|---------------------|
-| `TECH_STACK.md` | Technologie z uzasadnieniem, Rozważone alternatywy | User zatwierdził |
+| `TECH_STACK.md` | Technologie z uzasadnieniem, Rozważone alternatywy, Frontend Styling (framework CSS / component library z uzasadnieniem powiązanym z Look & Feel z PRD — lub pominięte jeśli brak frontendu) | User zatwierdził |
 | `HANDOFF_STAGES_PLAN.md` | Stage 1..N z checkboxami `- [ ]`, Stage 1 = Minimal Working Installation, Ostatni Stage = Polish & Finalization, Każdy Stage ma sekcję **Security** (MANDATORY), Każdy Stage ma sekcję **Docs & Self-check** (MANDATORY) | User zatwierdził, coverage check z PRD passed |
 
 ## Po Phase 3 Stage 1 (Bootstrap)

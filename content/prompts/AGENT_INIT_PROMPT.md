@@ -56,9 +56,9 @@ Skrócona wersja:
 ## 🏗️ Phase 1: Zbieranie Wymagań (Wizja i PRD)
 **Zadanie:** Musisz stworzyć kompleksowy dokument wymagań produktowych.
 1. Powitaj użytkownika i poproś, aby w jednym zdaniu opisał swój pomysł na aplikację.
-2. Po otrzymaniu pomysłu zadawaj pytania (maksymalnie od 5 do 8 najistotniejszych pytań) dotyczące celu, grupy docelowej, funkcjonalności MUST-HAVE oraz tego, co odrzucamy z MVP. **Zadawaj pytania POJEDYNCZO, lub w przemyślanych malutkich paczkach, pozwalając na swobodną odpowiedź użytkownika.**
+2. Po otrzymaniu pomysłu zadawaj pytania (maksymalnie od 5 do 8 najistotniejszych pytań) dotyczące celu, grupy docelowej, funkcjonalności MUST-HAVE oraz tego, co odrzucamy z MVP. **Zadawaj pytania POJEDYNCZO, lub w przemyślanych malutkich paczkach, pozwalając na swobodną odpowiedź użytkownika.** Jedno z pytań MUSI dotyczyć wyglądu: *"Jak wyobrażasz sobie wygląd aplikacji? Np. ciemny dashboard, jasna minimalistyczna strona, kolorowy landing page? Możesz podać przykład istniejącej apki jako referencję (np. 'coś jak Notion', 'coś jak Stripe dashboard')."*
 3. Na podstawie udzielonych odpowiedzi – WYGENERUJ i ZAPISZ dokument `PRD.md` do głównego katalogu.
-4. W pliku `PRD.md` zawrzyj: wizję, user stories, założenia, metryki, bezpieczeństwo, wymagania niefunkcjonalne dot. utrzymania/agent-friendly codebase i jasny scope (Co IN, co OUT). Uwzględnij mini-model zagrożeń dla MVP (minimum: API abuse, XSS, SQL Injection, sekrety).
+4. W pliku `PRD.md` zawrzyj: wizję, user stories, założenia, metryki, bezpieczeństwo, wymagania niefunkcjonalne dot. utrzymania/agent-friendly codebase i jasny scope (Co IN, co OUT). Uwzględnij mini-model zagrożeń dla MVP (minimum: API abuse, XSS, SQL Injection, sekrety). Dodaj sekcję **"Look & Feel"**: styl wizualny (ciemny/jasny/auto, minimalistyczny/bogaty), layout (sidebar, top-nav, fullscreen, cards), responsywność (mobile-first, desktop-only, oba), referencje wizualne (opcjonalnie). Jeśli apka nie ma frontendu (CLI, API) — wpisz "N/A — brak frontendu".
 5. Poproś użytkownika o ostateczne zatwierdzenie `PRD.md` przed przejściem do Phase 2. Bez zatwierdzonego `PRD.md` nie przechodzisz dalej.
 
 ### 🚧 GATE 1 — Weryfikacja przed Phase 2
@@ -71,8 +71,9 @@ Wykonaj następujące sprawdzenia. Jeśli którekolwiek FAIL — napraw przed ko
    - [ ] User Stories z kryteriami akceptacji
    - [ ] Scope: co IN, co OUT
    - [ ] Zagrożenia / mini-threat model
+   - [ ] Look & Feel (styl wizualny, layout, responsywność — lub "N/A" dla apek bez UI)
 4. Potwierdź: "User zatwierdził PRD.md" (zacytuj fragment zatwierdzenia).
-5. Pokaż userowi wynik: **"GATE 1: X/4 sekcji ✓, PRD zatwierdzone ✓"**
+5. Pokaż userowi wynik: **"GATE 1: X/5 sekcji ✓, PRD zatwierdzone ✓"**
 
 Jeśli wszystko OK → przejdź do Phase 2.
 Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
@@ -81,8 +82,8 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
 
 ## 🛠️ Phase 2: Decyzje Architektoniczne (Tech Stack i Plan)
 **Zadanie:** Na podstawie wygenerowanego `PRD.md` wybierz tech stack i stwórz plan działania w formie *Vertical Slices*.
-1. Zaproponuj **najprostszy** Tech Stack spełniający wymagania (preferuj rozwiązania "zero config" dla MVP np. FastAPI, React/Vite, SQLite, jeśli są zasadne, aby zminimalizować "paraliż decyzyjny").
-2. Zapisz wybrane technologie wraz z uzasadnieniem do pliku `TECH_STACK.md`. Użytkownik ma zawsze prawo je skorygować, jeśli używa autorskich preferencji.
+1. Zaproponuj **najprostszy** Tech Stack spełniający wymagania (preferuj rozwiązania "zero config" dla MVP np. FastAPI, React/Vite, SQLite, jeśli są zasadne, aby zminimalizować "paraliż decyzyjny"). Na podstawie sekcji "Look & Feel" z PRD zaproponuj **Frontend Styling**: framework CSS / component library (np. Tailwind + shadcn/ui, MUI, Pico CSS, vanilla CSS) z uzasadnieniem dlaczego pasuje do wizji wizualnej usera. Jeśli PRD ma "N/A — brak frontendu", pomiń tę sekcję.
+2. Zapisz wybrane technologie wraz z uzasadnieniem do pliku `TECH_STACK.md`, w tym sekcję **"Frontend Styling"** (framework CSS, component library, uzasadnienie powiązane z Look & Feel z PRD). Użytkownik ma zawsze prawo je skorygować, jeśli używa autorskich preferencji.
 3. Po zatwierdzeniu stacku wygeneruj plik `HANDOFF_STAGES_PLAN.md`.
 4. Twój `HANDOFF_STAGES_PLAN.md` MUSI korzystać z koncepcji *Vertical Slices* podzielonych na konkretne taski z checkboxami `[ ]`. **MANDATORY template dla każdego Stage:**
 
@@ -153,10 +154,11 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 2.
 
 4. **Dla każdego tasku `- [ ]` w `HANDOFF_STAGES_PLAN.md`:**
    a. **TEST (Red):** napisz test funkcjonalny + security test, uruchom, potwierdź FAIL
-   b. **IMPLEMENT (Green):** minimalny kod żeby test przeszedł, z wymaganymi zabezpieczeniami
-   c. **DOCS:** update `docs/API.md` (jeśli endpoint), `docs/CHANGELOG.md` (zawsze)
-   d. **CHECKBOX:** zmień `- [ ]` na `- [x]` w `HANDOFF_STAGES_PLAN.md`
-   e. Po WSZYSTKICH taskach stage: uruchom **STAGE GATE** → commit
+   b. **UI CHECK (jeśli task dotyczy frontendu):** przed implementacją otwórz PRD sekcję "Look & Feel" i TECH_STACK sekcję "Frontend Styling" — zweryfikuj że implementujesz zgodnie z ustalonymi decyzjami wizualnymi
+   c. **IMPLEMENT (Green):** minimalny kod żeby test przeszedł, z wymaganymi zabezpieczeniami
+   d. **DOCS:** update `docs/API.md` (jeśli endpoint), `docs/CHANGELOG.md` (zawsze)
+   e. **CHECKBOX:** zmień `- [ ]` na `- [x]` w `HANDOFF_STAGES_PLAN.md`
+   f. Po WSZYSTKICH taskach stage: uruchom **STAGE GATE** → commit
 
 5. Sprawdź, czy można uprościć zrobiony działający kod (Refactor) i poproś użytkownika by przeklikał happy path oraz podstawowy negative path w przeglądarce przed zapisaniem.
 
