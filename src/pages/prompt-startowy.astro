@@ -17,21 +17,21 @@ const files = [
     id: "agent-init",
     filename: "AGENT_INIT_PROMPT.md",
     label: "Prompt startowy",
-    description: "Prowadzi agenta przez 5 faz: od pomyslu przez TDD do deploy. Zawiera GATE checkpointy, ktore blokuja przejscie do nastepnej fazy jesli brakuje artefaktow.",
+    description: "Prowadzi agenta przez 5 faz: od pomysłu przez TDD do deployu. Zawiera checkpointy GATE, które blokują przejście do następnej fazy, jeśli brakuje artefaktów.",
     content: agentPrompt,
   },
   {
     id: "artifact-checklist",
     filename: "ARTIFACT_CHECKLIST.md",
     label: "Artifact Checklist",
-    description: "Referencyjny dokument z pelna lista wymaganych plikow per faza i kryteriami akceptacji. Agent odwoluje sie do niego przy kazdym GATE.",
+    description: "Referencyjny dokument z pełną listą wymaganych plików dla każdej fazy i kryteriami akceptacji. Agent odwołuje się do niego przy każdym GATE.",
     content: artifactChecklist,
   },
   {
     id: "verification-prompt",
     filename: "VERIFICATION_PROMPT.md",
     label: "Verification Prompt",
-    description: "Niezalezny prompt audytowy. Wklej go do DOWOLNEGO agenta w dowolnym momencie, zeby sprawdzic stan projektu i dostac raport co brakuje.",
+    description: "Niezależny prompt audytowy. Wklej go do dowolnego agenta w dowolnym momencie, żeby sprawdzić stan projektu i dostać raport, czego brakuje.",
     content: verificationPrompt,
   },
 ];
@@ -39,68 +39,68 @@ const files = [
 
 <BaseLayout
   title="Prompt startowy: AGENT_INIT_PROMPT"
-  description="3 pliki markdown ktore prowadza agenta AI przez caly proces budowania apki — od pomyslu do deploy."
+  description="3 pliki markdown, które prowadzą agenta AI przez cały proces budowania apki — od pomysłu do deployu."
 >
   <section class="hero prompt-hero">
-    <h1>Pliki startowe (to jest clue calego flow)</h1>
+    <h1>Pliki startowe (to jest sedno całego flow)</h1>
     <p class="muted">
-      3 pliki markdown, ktore prowadza agenta AI przez caly proces: od pomyslu
-      i PRD, przez plan i kodowanie z GATE checkpointami, az do deployu.
+      3 pliki markdown, które prowadzą agenta AI przez cały proces: od pomysłu
+      i PRD, przez plan i kodowanie z checkpointami GATE, aż do deployu.
     </p>
     <div class="inline-links">
-      <a href={courseUrl} target="_blank" rel="noreferrer">Otworz kurs</a>
-      <a href={discordUrl} target="_blank" rel="noreferrer">Dolacz na Discord</a>
+      <a href={courseUrl} target="_blank" rel="noreferrer">Otwórz kurs</a>
+      <a href={discordUrl} target="_blank" rel="noreferrer">Dołącz na Discord</a>
       <a href={youtubeUrl} target="_blank" rel="noreferrer">Zobacz demo na YouTube</a>
     </div>
   </section>
 
   <section class="info-card">
-    <h2>Jak to odpalic</h2>
+    <h2>Jak to odpalić</h2>
     <ol class="setup-steps">
       <li>
-        <strong>Stworz pusty katalog</strong> na swoj projekt (np. <code>my-app/</code>).
+        <strong>Stwórz pusty katalog</strong> na swój projekt (np. <code>my-app/</code>).
       </li>
       <li>
         <strong>Skopiuj 3 pliki</strong> z tej strony do katalogu projektu:
         <div class="file-list">
-          <code>AGENT_INIT_PROMPT.md</code> — glowny prompt
-          <code>ARTIFACT_CHECKLIST.md</code> — lista artefaktow (agent czyta przy GATE)
-          <code>VERIFICATION_PROMPT.md</code> — niezalezny audyt (opcjonalnie, w dowolnym momencie)
+          <code>AGENT_INIT_PROMPT.md</code> — główny prompt
+          <code>ARTIFACT_CHECKLIST.md</code> — lista artefaktów (agent czyta przy GATE)
+          <code>VERIFICATION_PROMPT.md</code> — niezależny audyt (opcjonalnie, w dowolnym momencie)
         </div>
       </li>
       <li>
-        <strong>Otworz agenta AI</strong> (Claude Code, Cursor, Windsurf) w tym katalogu i wklej:
+        <strong>Otwórz agenta AI</strong> (Claude Code, Cursor, Windsurf) w tym katalogu i wklej:
         <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj AGENT_INIT_PROMPT.md i ARTIFACT_CHECKLIST.md. Zacznij.</code></pre>
       </li>
       <li>
-        <strong>Podaj pomysl</strong> jednym zdaniem i pozwol agentowi prowadzic Cie przez fazy.
+        <strong>Podaj pomysł</strong> jednym zdaniem i pozwól agentowi prowadzić Cię przez fazy.
       </li>
     </ol>
   </section>
 
   <section class="prompt-grid">
     <article class="info-card">
-      <h2>Co dobrze przygotowac przed startem</h2>
+      <h2>Co dobrze przygotować przed startem</h2>
       <ul>
-        <li>konto na GitHubie (latwiej zapisywac progres),</li>
+        <li>konto na GitHubie (łatwiej zapisywać progres),</li>
         <li>90 minut spokojnego czasu na pierwszy przebieg,</li>
         <li>
-          opcjonalnie: VPS, jesli chcesz od razu wystawic apke publicznie po
-          ukonczeniu.
+          opcjonalnie: VPS, jeśli chcesz od razu wystawić apkę publicznie po
+          ukończeniu.
         </li>
       </ul>
     </article>
 
     <article class="info-card">
-      <h2>Gdzie ludzie najczesciej sie wykladaja</h2>
+      <h2>Gdzie ludzie najczęściej się wykładają</h2>
       <ul>
-        <li>prosza agenta o &bdquo;zrob wszystko naraz&rdquo; zamiast task po tasku,</li>
-        <li>pomijaja testy i wracaja do bugow po kilku dniach,</li>
-        <li>nie aktualizuja dokumentacji po stage'u,</li>
-        <li>nie robia commitow po domknietym kroku.</li>
+        <li>proszą agenta o &bdquo;zrób wszystko naraz&rdquo; zamiast task po tasku,</li>
+        <li>pomijają testy i wracają do bugów po kilku dniach,</li>
+        <li>nie aktualizują dokumentacji po stage'u,</li>
+        <li>nie robią commitów po domkniętym kroku.</li>
       </ul>
       <p class="muted">
-        Jesli utkniesz: wrzuc kontekst i blad na Discorda.
+        Jeśli utkniesz: wrzuć kontekst i błąd na Discorda.
       </p>
     </article>
   </section>
