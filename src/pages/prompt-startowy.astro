@@ -11,6 +11,7 @@ const verificationPrompt = fs.readFileSync(path.join(promptsDir, "VERIFICATION_P
 const courseUrl = "https://vibe.devince.dev";
 const discordUrl = "https://discord.gg/mSSqkQWe4D";
 const youtubeUrl = "https://youtube.com/@devince";
+const starterZipUrl = "/downloads/init-prompts.zip";
 
 const files = [
   {
@@ -61,16 +62,22 @@ const files = [
         <strong>Stwórz pusty katalog</strong> na swój projekt (np. <code>my-app/</code>).
       </li>
       <li>
-        <strong>Skopiuj 3 pliki</strong> z tej strony do katalogu projektu:
-        <div class="file-list">
-          <code>AGENT_INIT_PROMPT.md</code> — główny prompt
-          <code>ARTIFACT_CHECKLIST.md</code> — lista artefaktów (agent czyta przy GATE)
-          <code>VERIFICATION_PROMPT.md</code> — niezależny audyt (opcjonalnie, w dowolnym momencie)
+        <strong>Pobierz gotową paczkę ZIP</strong> z plikami startowymi:
+        <div class="download-cta">
+          <a class="download-btn" href={starterZipUrl} download>⬇ Pobierz init-prompts.zip</a>
         </div>
       </li>
       <li>
-        <strong>Otwórz agenta AI</strong> (Claude Code, Cursor, Windsurf) w tym katalogu i wklej:
-        <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj AGENT_INIT_PROMPT.md i ARTIFACT_CHECKLIST.md. Zacznij.</code></pre>
+        <strong>Rozpakuj ZIP</strong> do katalogu projektu (folder <code>init_prompts/</code> utworzy się automatycznie).
+        <div class="file-list">
+          <code>init_prompts/AGENT_INIT_PROMPT.md</code> — główny prompt
+          <code>init_prompts/ARTIFACT_CHECKLIST.md</code> — lista artefaktów (agent czyta przy GATE)
+          <code>init_prompts/VERIFICATION_PROMPT.md</code> — niezależny audyt (opcjonalnie, w dowolnym momencie)
+        </div>
+      </li>
+      <li>
+        <strong>Otwórz agenta AI</strong> (Claude Code, Cursor, Windsurf) w katalogu projektu i wklej:
+        <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj init_prompts/AGENT_INIT_PROMPT.md i init_prompts/ARTIFACT_CHECKLIST.md. Zacznij.</code></pre>
       </li>
       <li>
         <strong>Podaj pomysł</strong> jednym zdaniem i pozwól agentowi prowadzić Cię przez fazy.
@@ -174,6 +181,29 @@ const files = [
 </script>
 
 <style>
+  .download-cta {
+    margin-top: 0.6rem;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: border-color 150ms ease, transform 150ms ease;
+  }
+
+  .download-btn:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
   .setup-steps li {
     margin-bottom: 0.8rem;
   }
