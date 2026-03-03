@@ -18,7 +18,12 @@ const {
   <body>
     <header class="site-header">
       <div class="container header-wrap">
-        <a href="/" class="brand">Od pomysłu do deploy</a>
+        <a href="/" class="brand">
+          <svg class="brand-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
+          </svg>
+          Od pomysłu do deploy
+        </a>
         <nav>
           <a href="/">Spis lekcji</a>
           <a href="/prompt-startowy/">Prompt startowy</a>
@@ -31,8 +36,13 @@ const {
     </main>
 
     <footer class="site-footer">
-      <div class="container">
-        <small>Devince • Kurs praktyczny • Light theme</small>
+      <div class="container footer-inner">
+        <span class="footer-brand">Devince</span>
+        <div class="footer-links">
+          <a href="https://devince.dev" target="_blank" rel="noreferrer">devince.dev</a>
+          <a href="https://discord.gg/mSSqkQWe4D" target="_blank" rel="noreferrer">Discord</a>
+          <a href="https://youtube.com/@devince" target="_blank" rel="noreferrer">YouTube</a>
+        </div>
       </div>
     </footer>
   </body>

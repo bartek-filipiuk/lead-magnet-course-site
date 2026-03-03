@@ -25,9 +25,9 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
   <article class="lesson-shell">
     <header class="lesson-top">
       <div class="meta-line">
-        <span class="badge">Lekcja {lesson.order}</span>
-        <span class="badge">{lesson.duration}</span>
-        {lesson.isBonus ? <span class="badge">Bonus</span> : null}
+        <span class="badge badge--lesson">Lekcja {lesson.order}</span>
+        <span class="badge badge--duration">{lesson.duration}</span>
+        {lesson.isBonus ? <span class="badge badge--bonus">Bonus</span> : null}
       </div>
       <h1>{lesson.title}</h1>
       {lesson.preview ? <p class="muted">{lesson.preview}</p> : null}
@@ -56,24 +56,22 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
     </div>
 
     <nav class="lesson-nav" aria-label="Nawigacja po lekcjach">
-      <div>
-        {
-          prevLesson ? (
-            <a href={`/lekcja/${prevLesson.slug}/`}>
-              ← {prevLesson.title}
-            </a>
-          ) : null
-        }
-      </div>
-      <div>
-        {
-          nextLesson ? (
-            <a href={`/lekcja/${nextLesson.slug}/`}>
-              {nextLesson.title} →
-            </a>
-          ) : null
-        }
-      </div>
+      {
+        prevLesson ? (
+          <a href={`/lekcja/${prevLesson.slug}/`} class="nav-card">
+            <span class="nav-card__direction">← Poprzednia lekcja</span>
+            <span class="nav-card__title">{prevLesson.title}</span>
+          </a>
+        ) : <div />
+      }
+      {
+        nextLesson ? (
+          <a href={`/lekcja/${nextLesson.slug}/`} class="nav-card nav-card--next">
+            <span class="nav-card__direction">Następna lekcja →</span>
+            <span class="nav-card__title">{nextLesson.title}</span>
+          </a>
+        ) : <div />
+      }
     </nav>
   </article>
 </BaseLayout>
