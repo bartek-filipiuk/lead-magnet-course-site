@@ -4,6 +4,7 @@ import path from "node:path";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const promptsDir = path.resolve(process.cwd(), "content/prompts");
+const bootstrapPrompt = fs.readFileSync(path.join(promptsDir, "BOOTSTRAP_PROMPT.md"), "utf-8").trim();
 const agentPrompt = fs.readFileSync(path.join(promptsDir, "AGENT_INIT_PROMPT.md"), "utf-8").trim();
 const artifactChecklist = fs.readFileSync(path.join(promptsDir, "ARTIFACT_CHECKLIST.md"), "utf-8").trim();
 const verificationPrompt = fs.readFileSync(path.join(promptsDir, "VERIFICATION_PROMPT.md"), "utf-8").trim();
@@ -11,9 +12,16 @@ const verificationPrompt = fs.readFileSync(path.join(promptsDir, "VERIFICATION_P
 const courseUrl = "https://vibe.devince.dev";
 const discordUrl = "https://discord.gg/mSSqkQWe4D";
 const youtubeUrl = "https://youtube.com/@devince";
-const starterZipUrl = "/downloads/init-prompts.zip";
+const bootstrapPromptUrl = `${courseUrl}/prompts/BOOTSTRAP_PROMPT.md`;
 
 const files = [
+  {
+    id: "bootstrap-prompt",
+    filename: "BOOTSTRAP_PROMPT.md",
+    label: "Bootstrap Prompt",
+    description: "Jednolinijkowa instrukcja startowa: agent po wklejeniu linku sam tworzy wymagane pliki w katalogu wskazanym przez użytkownika.",
+    content: bootstrapPrompt,
+  },
   {
     id: "agent-init",
     filename: "AGENT_INIT_PROMPT.md",
@@ -62,22 +70,23 @@ const files = [
         <strong>Stwórz pusty katalog</strong> na swój projekt (np. <code>my-app/</code>).
       </li>
       <li>
-        <strong>Pobierz gotową paczkę ZIP</strong> z plikami startowymi:
+        <strong>Wklej do agenta jedną linijkę</strong> (link do instrukcji bootstrap):
+        <pre class="prompt-pre prompt-pre--short"><code>{`Przeczytaj instrukcję z ${bootstrapPromptUrl} i wykonaj ją krok po kroku.`}</code></pre>
         <div class="download-cta">
-          <a class="download-btn" href={starterZipUrl} download>⬇ Pobierz init-prompts.zip</a>
+          <a class="download-btn" href="/prompts/BOOTSTRAP_PROMPT.md" target="_blank" rel="noreferrer">Otwórz BOOTSTRAP_PROMPT.md</a>
         </div>
       </li>
       <li>
-        <strong>Rozpakuj ZIP</strong> do katalogu projektu (folder <code>init_prompts/</code> utworzy się automatycznie).
+        <strong>Wskaż agentowi katalog docelowy</strong>. Agent utworzy tam pliki:
         <div class="file-list">
-          <code>init_prompts/AGENT_INIT_PROMPT.md</code> — główny prompt
-          <code>init_prompts/ARTIFACT_CHECKLIST.md</code> — lista artefaktów (agent czyta przy GATE)
-          <code>init_prompts/VERIFICATION_PROMPT.md</code> — niezależny audyt (opcjonalnie, w dowolnym momencie)
+          <code>AGENT_INIT_PROMPT.md</code> — główny prompt
+          <code>ARTIFACT_CHECKLIST.md</code> — lista artefaktów (agent czyta przy GATE)
+          <code>VERIFICATION_PROMPT.md</code> — niezależny audyt (opcjonalnie, w dowolnym momencie)
         </div>
       </li>
       <li>
-        <strong>Otwórz agenta AI</strong> (Claude Code, Cursor, Windsurf) w katalogu projektu i wklej:
-        <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj init_prompts/AGENT_INIT_PROMPT.md i init_prompts/ARTIFACT_CHECKLIST.md. Zacznij.</code></pre>
+        <strong>Gdy pliki będą gotowe</strong>, otwórz agenta AI (Claude Code, Cursor, Windsurf) w tym katalogu i wklej:
+        <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj AGENT_INIT_PROMPT.md i ARTIFACT_CHECKLIST.md. Zacznij.</code></pre>
       </li>
       <li>
         <strong>Podaj pomysł</strong> jednym zdaniem i pozwól agentowi prowadzić Cię przez fazy.
