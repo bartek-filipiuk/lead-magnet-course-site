@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /
+
+# Allow AI agents to fetch prompts
+Allow: /prompts/
