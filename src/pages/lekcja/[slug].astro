@@ -75,3 +75,82 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
     </nav>
   </article>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLPreElement>(".lesson-content pre").forEach((pre) => {
+    const code = pre.querySelector("code");
+    if (!code) return;
+
+    const btn = document.createElement("button");
+    btn.className = "code-copy-btn";
+    btn.setAttribute("aria-label", "Kopiuj");
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Kopiuj</span>`;
+
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(code.textContent || "");
+      } catch {
+        const ta = document.createElement("textarea");
+        ta.value = code.textContent || "";
+        ta.style.cssText = "position:fixed;opacity:0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      const label = btn.querySelector("span");
+      if (label) {
+        label.textContent = "Skopiowano!";
+        btn.classList.add("code-copy-btn--ok");
+        setTimeout(() => {
+          label.textContent = "Kopiuj";
+          btn.classList.remove("code-copy-btn--ok");
+        }, 2000);
+      }
+    });
+
+    pre.style.position = "relative";
+    pre.appendChild(btn);
+  });
+</script>
+
+<style>
+  .code-copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--border, #444);
+    border-radius: 6px;
+    background: var(--bg-elevated, #1e1e2e);
+    color: var(--muted, #888);
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .lesson-content pre:hover .code-copy-btn {
+    opacity: 1;
+  }
+
+  .code-copy-btn:hover {
+    border-color: var(--accent, #7c3aed);
+    color: var(--accent, #7c3aed);
+    background: var(--accent-soft, #7c3aed1a);
+  }
+
+  .code-copy-btn--ok {
+    border-color: #16a34a;
+    color: #16a34a;
+    opacity: 1;
+  }
+
+  .code-copy-btn svg {
+    flex-shrink: 0;
+  }
+</style>
