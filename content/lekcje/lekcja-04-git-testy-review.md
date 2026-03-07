@@ -233,14 +233,12 @@ Napraw przynajmniej KRYTYCZNE i WAŻNE. DROBNE zostawisz na później.
 
 Po dzisiejszych krokach masz:
 
-```
-[x] Kod w repozytorium na GitHub
-[x] Historia commitów (jeden na stage)
-[x] Smoke test przechodzi (apka się uruchamia)
-[x] Happy path przechodzi (główny flow działa)
-[x] Przegląd kodu zrobiony (brak krytycznych problemów)
-[x] .gitignore skonfigurowany (brak sekretów w repo)
-```
+- [x] Kod w repozytorium na GitHub
+- [x] Historia commitów (jeden na stage)
+- [x] Smoke test przechodzi (apka się uruchamia)
+- [x] Happy path przechodzi (główny flow działa)
+- [x] Przegląd kodu zrobiony (brak krytycznych problemów)
+- [x] .gitignore skonfigurowany (brak sekretów w repo)
 
 To jest kod, który możesz wdrożyć. Nie idealny, nie pokryty testami na 100%, ale działający, po przeglądzie i bezpieczny.
 

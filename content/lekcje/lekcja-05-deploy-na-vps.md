@@ -152,12 +152,12 @@ DNS to książka telefoniczna internetu. Mówisz: "mojaapka.pl = serwer 65.108.x
 
 U rejestratora domen (np. OVH, Cloudflare, Porkbun) dodaj rekord DNS:
 
-```
-Typ: A
-Nazwa: mojaapka (albo @ dla głównej domeny)
-Wartość: 65.108.xxx.xxx (IP Twojego VPS)
-TTL: 300
-```
+| Pole | Wartość |
+|------|--------|
+| Typ | A |
+| Nazwa | mojaapka (albo @ dla głównej domeny) |
+| Wartość | 65.108.xxx.xxx (IP Twojego VPS) |
+| TTL | 300 |
 
 Jeśli nie masz domeny — na początek użyj darmowej subdomeny z freedns.afraid.org, albo po prostu wchodź po IP.
 
@@ -316,13 +316,13 @@ Za 22 PLN miesięcznie masz własny serwer, na którym uruchomisz wiele aplikacj
 
 Przez 5 dni przeszedłeś całą drogę:
 
-```
-Dzień 1: Pomysł → PRD.md (15 minut)
-Dzień 2: PRD → Tech Stack + Plan (15 minut)
-Dzień 3: Plan → Działająca apka (30-60 minut)
-Dzień 4: Apka → Przetestowany kod w repo (30-45 minut)
-Dzień 5: Repo → Apka pod Twoją domeną (30 minut)
-```
+| Dzień | Krok | Czas |
+|-------|------|------|
+| 1 | Pomysł → PRD.md | 15 minut |
+| 2 | PRD → Tech Stack + Plan | 15 minut |
+| 3 | Plan → Działająca apka | 30-60 minut |
+| 4 | Apka → Przetestowany kod w repo | 30-45 minut |
+| 5 | Repo → Apka pod Twoją domeną | 30 minut |
 
 **Łączny czas: 2-3 godziny.** Od jednego zdania do działającego projektu w internecie.
 
