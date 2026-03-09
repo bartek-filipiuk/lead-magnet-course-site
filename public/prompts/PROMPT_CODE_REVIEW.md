@@ -3,7 +3,7 @@
 Prompt do przeglądu kodu z AI przed deployem.
 
 ## Kiedy użyć
-Po zakończeniu budowy (lub stage'u) — przed pushowaniem na GitHub i deployem.
+Po zakończeniu budowy (lub stage'u) - przed pushowaniem na GitHub i deployem.
 
 ## Prompt
 

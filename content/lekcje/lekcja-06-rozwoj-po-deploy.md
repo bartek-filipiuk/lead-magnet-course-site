@@ -47,7 +47,7 @@ Przykład (habit tracker):
 
 ---
 
-## Gotowy prompt: audyt aplikacji i propozycje rozwoju
+## Prompt: audyt aplikacji i propozycje rozwoju
 
 Jeśli chcesz zobaczyć pełny przekrój możliwości (a nie tylko 2-3 oczywiste pomysły), użyj tego promptu:
 
@@ -161,13 +161,13 @@ Tu warto trzymać się prostej sekwencji.
 
 Dla backendu obowiązuje twarda sekwencja:
 
-1. **Test (Red)** — piszesz test i potwierdzasz, że failuje
-2. **Kod (Green)** — dopisujesz minimalny kod, żeby test przeszedł
-3. **Refactor** — upraszczasz bez zmiany zachowania
+1. **Test (Red)** - piszesz test i potwierdzasz, że failuje
+2. **Kod (Green)** - dopisujesz minimalny kod, żeby test przeszedł
+3. **Refactor** - upraszczasz bez zmiany zachowania
 
 Jeśli agent próbuje pisać kod bez Red testu, zatrzymujesz go i wracasz do kroku 1.
 
-Gotowy prompt:
+Prompt:
 
 ```
 "Wykonaj Task 6.1 w twardym TDD.
@@ -206,7 +206,7 @@ git pull
 docker compose up -d --build
 ```
 
-I zawsze miej plan awaryjny:
+I warto mieć plan awaryjny:
 - ostatni stabilny commit,
 - szybki rollback,
 - sprawdzenie logów po wdrożeniu.
@@ -234,7 +234,7 @@ Zasada: małe iteracje > wielki rewrite.
 
 ---
 
-## Co masz po tym bonusie
+## Co powinno się pojawić po tym bonusie
 
 Po wdrożeniu tego podejścia masz:
 
@@ -246,7 +246,7 @@ Po wdrożeniu tego podejścia masz:
 [x] Bezpieczny cykl: przegląd -> wdrożenie -> monitoring
 ```
 
-To moment, w którym projekt zaczyna działać dłużej niż pierwszy sprint.
+Jeśli trzymasz ten proces, projekt zwykle działa dłużej niż pierwszy sprint.
 
 ---
 
@@ -259,23 +259,23 @@ To moment, w którym projekt zaczyna działać dłużej niż pierwszy sprint.
 5. Zaktualizuj minimum (`docs/README.md`, `docs/API.md`, `docs/CHANGELOG.md`) oraz inne pliki docs adekwatne do zmian
 6. Wdróż i sprawdź logi
 
-**Ile czasu:** 45-90 minut.
+**Ile czasu:** orientacyjnie 45-90 minut.
 
 ---
 
 ## FAQ
 
 ### Jak wybrać „następną funkcję”, żeby nie wpaść w chaos?
-Najpierw oceń pomysł w dwóch osiach: wpływ na użytkownika (impact) i koszt wdrożenia (effort). Na start wybieraj rzeczy o wysokim impact i niskim/średnim effort. To daje szybki efekt bez przepalania tygodnia pracy.
+Najpierw oceń pomysł w dwóch osiach: wpływ na użytkownika (impact) i koszt wdrożenia (effort). Na start wybieraj rzeczy o wysokim impact i niskim/średnim effort. To zwykle daje szybki efekt bez przepalania tygodnia pracy.
 
 ### Czy po deployu naprawdę muszę dalej prowadzić dokumentację?
-Tak, bo przy kolejnych zmianach to dokumentacja trzyma porządek między Tobą a agentem AI. Minimum to `docs/README.md`, `docs/API.md`, `docs/CHANGELOG.md` po każdym stage’u. Bez tego szybko tracisz kontrolę nad tym, co działa i dlaczego.
+Warto, bo przy kolejnych zmianach to dokumentacja trzyma porządek między Tobą a agentem AI. Minimum to `docs/README.md`, `docs/API.md`, `docs/CHANGELOG.md` po każdym stage'u. Bez tego łatwo stracić kontrolę nad tym, co działa i dlaczego.
 
 ### Co jeśli nie mam pewności, czy robić refactor, czy iść dalej z funkcjami?
 Jeśli kod utrudnia dodanie kolejnej funkcji, zrób mały refactor od razu po Green. Jeśli nie blokuje postępu, zapisz to jako osobny task techniczny i jedź dalej. Klucz to małe, świadome kroki zamiast dużych przepisek.
 
 ### Czy każdą nową funkcję muszę robić przez TDD?
-Na backendzie — tak, to najlepszy bezpiecznik jakości. Na frontendzie możesz być bardziej elastyczny, ale nadal warto mieć choć podstawowe testy kluczowych flow. Najgorszy scenariusz to szybkie wdrożenia bez żadnych testów, bo błędy wracają lawinowo.
+Na backendzie - w tym kursie tak, to nasz główny bezpiecznik jakości. Na frontendzie możesz być bardziej elastyczny, ale nadal warto mieć choć podstawowe testy kluczowych flow. Szybkie wdrożenia bez testów zwykle kończą się powrotami do tych samych błędów.
 
 ### Kiedy wiadomo, że stage jest „domknięty”?
 Gdy przejdziesz stage gate: testy zielone, funkcja działa zgodnie z kryteriami, docs zaktualizowane i masz commit. Jeśli brakuje jednego z tych elementów, stage jest niedomknięty. Lepiej domknąć etap niż kumulować „prawie gotowe” rzeczy.
@@ -291,7 +291,7 @@ Nie automatycznie. Najpierw sprawdź, gdzie realnie pojawia się bottleneck: CPU
 
 ---
 
-Gratulacje — przeszedłeś od pomysłu do działającej aplikacji i masz już system dalszego rozwoju.
+Gratulacje - przeszedłeś od pomysłu do działającej aplikacji i masz proces dalszego rozwoju.
 
 Do zobaczenia przy kolejnych wdrożeniach!
 Bartek

@@ -1,18 +1,18 @@
 # Lekcja 4: Git, testy, przegląd kodu
 
-**Subject line:** Git + testy + przegląd kodu — bez bólu [Lekcja 4/5]
-**Preview text:** Twój kod w repo, przetestowany, po przeglądzie. Gotowy do deployu.
+**Subject line:** Git + testy + przegląd kodu - bez bólu [Lekcja 4/5]
+**Preview text:** Kod w repo, testy i przegląd zmian. To dobry krok przed deployem.
 
 ---
 
 Hej!
 
-Twoja apka działa lokalnie. Dzisiaj doprowadzamy kod do stanu, w którym spokojnie pokażesz go światu: w repozytorium, przetestowany i po przeglądzie.
+Twoja apka działa lokalnie. Jeśli nie, napisz do mnie na Discordzie. Dzisiaj doprowadzamy kod do stanu, który łatwiej i bezpieczniej pokazać światu: w repozytorium, po testach i po przeglądzie.
 
 Trzy filary dzisiejszej lekcji:
-- **Git** — siatka bezpieczeństwa (backup, historia, baza pod deploy)
-- **Testy** — weryfikacja, że apka robi to, co ma
-- **Przegląd kodu** — upewnienie się, że nic nie wybucha
+- **Git** - siatka bezpieczeństwa (backup, historia, baza pod deploy)
+- **Testy** - weryfikacja, że apka robi to, co ma
+- **Przegląd kodu** - upewnienie się, że nic nie wybucha
 
 ---
 
@@ -20,22 +20,22 @@ Trzy filary dzisiejszej lekcji:
 
 Git to system kontroli wersji. **Git to "save game" w grze.** Zapisujesz stan projektu, a potem możesz wrócić do dowolnego momentu.
 
-Trzy powody, dla których Git jest obowiązkowy:
-1. **Backup.** Twój kod jest na serwerze. Jak laptop padnie — nic nie tracisz.
+Trzy powody, dla których Git warto mieć od początku:
+1. **Backup.** Twój kod jest na serwerze. Jak laptop padnie - nic nie tracisz.
 2. **Historia zmian.** Zepsułeś coś? Wracasz do poprzedniej wersji jedną komendą.
 3. **Baza pod deploy.** Jutro w Lekcji 5 wrzucisz kod na serwer prosto z GitHuba.
 
 A GitHub? To magazyn w chmurze + portfolio. Rekruterzy patrzą na GitHuba. Klienci patrzą na GitHuba. Twoje repo to Twoje CV.
 
-Nie musisz rozumieć Gita głęboko. Pokażę Ci 5 komend, które wystarczą.
+Nie musisz rozumieć Gita głęboko. Pokażę Ci kilka komend, które wystarczą.
 
 ---
 
 ## Instalacja i konfiguracja Gita
 
-Jeśli masz już Gita — przeskocz do następnej sekcji.
+Jeśli masz już Gita - przeskocz do następnej sekcji.
 
-Jeśli nie — wklej ten prompt do AI (Claude Code, Codex, Cursor itp. agent):
+Jeśli nie - wklej ten prompt do AI (Claude Code, Codex, Cursor itp. agent):
 
 ```
 Pomóż mi zainstalować i skonfigurować Gita na moim komputerze.
@@ -44,7 +44,7 @@ Mój system operacyjny: [Windows / macOS / Linux]
 
 Potrzebuję:
 1. Sprawdzenie czy Git jest już zainstalowany (git --version)
-2. Jeżeli nie — instrukcja instalacji dla mojego systemu
+2. Jeżeli nie - instrukcja instalacji dla mojego systemu
 3. Konfiguracja użytkownika:
    - git config --global user.name "Moje Imie" (zapytaj o imię użytkownika)
    - git config --global user.email "moj@email.com" (zapytaj o email użytkownika)
@@ -58,13 +58,13 @@ Czekaj na moje potwierdzenie po każdym kroku.
 
 > Prompt do pobrania: [PROMPT_GIT_SETUP.md](https://vibe.devince.dev/prompts/PROMPT_GIT_SETUP.md)
 
-Ten krok robisz raz. Potem Git po prostu działa.
+Ten krok robisz raz. Potem Git działa w tle.
 
-Jeśli nie masz konta na GitHubie — załóż na github.com (darmowe). Link zapasowy do instalacji Gita: git-scm.com/download
+Jeśli nie masz konta na GitHubie - załóż je na github.com (darmowe). Link zapasowy do instalacji Gita: git-scm.com/download
 
 ---
 
-## Git w praktyce — 5 komend na start
+## Git w praktyce - 5 komend na start
 
 Oto cały Twój przepływ pracy z Gitem:
 
@@ -76,15 +76,16 @@ Oto cały Twój przepływ pracy z Gitem:
 | `git push` | Wysyła na GitHuba |
 | `git status` | Pokazuje co się zmieniło (bez zmieniania czegokolwiek) |
 
-`git status` jest Twoim przyjacielem. Kiedy nie wiesz co się dzieje — odpal `git status`.
+Kiedy nie wiesz co się dzieje - odpal `git status`.
 
 ### Podstawowy przepływ
 
 ```bash
-# 1. Zainicjuj repo (jeśli jeszcze nie)
+# 1. Zainicjuj repo
 git init
 git add .
-git commit -m "Stage 1: Minimal Working Installation"
+# Alternatywnie: git add <plik> (gdy chcesz dodać tylko jeden plik)
+git commit -m "Stage 1: Minimalna działająca aplikacja"
 
 # 2. Stwórz repo na GitHub
 # Wejdź na github.com → New Repository → skopiuj URL
@@ -108,31 +109,31 @@ git commit -m "Stage 3: Śledzenie streaków"
 git push
 ```
 
-Więcej commitów też OK. Minimum — po każdym stage'u.
+Więcej commitów też OK. Minimum - po każdym stage'u.
 
 ### Czego NIE commitować
 
-AI pewnie już stworzył plik `.gitignore` w Twoim projekcie. Jeśli nie — poproś go:
+AI pewnie już stworzył plik `.gitignore` w Twoim projekcie. Jeśli nie - poproś go:
 
 ```
 Wygeneruj plik .gitignore dla mojego projektu.
 Kontekst technologiczny znajdziesz w TECH_STACK.md.
 ```
 
-Zasada numer jeden: **nigdy nie commituj sekretów** — haseł, kluczy API, plików `.env`, danych osobowych. Jak coś takiego wyląduje na GitHubie — uważaj to za wyciek.
+Zasada numer jeden: **nigdy nie commituj sekretów** - haseł, kluczy API, plików `.env`, danych osobowych. Jak coś takiego wyląduje na GitHubie - uważaj to za wyciek.
 
 ### Dlaczego to ważne
 
-- **Backup.** Twój kod jest na GitHubie. Laptopowi może się coś stać.
+- **Backup.** Twój kod jest na GitHubie.
 - **Historia.** Możesz wrócić do dowolnego commita, jeśli coś popsujesz.
 - **Portfolio.** Repo na GitHubie to Twoje CV.
 - **Deploy.** Jutro będziemy deployować z GitHuba.
 
 ---
 
-## Testy — minimum, które wystarczy
+## Testy - minimum, które wystarczy
 
-W Lekcji 3 poznałeś TDD — pisanie testów PRZED kodem. TDD pomaga PODCZAS budowy. Testy tutaj to WERYFIKACJA po budowie: upewnij się, że całość naprawdę działa, zanim pokażesz ją światu.
+W Lekcji 3 poznałeś TDD - pisanie testów PRZED kodem. TDD pomaga PODCZAS budowy. Testy tutaj to WERYFIKACJA po budowie: upewnij się, że całość naprawdę działa, zanim pokażesz ją światu.
 
 Trzy poziomy testów na start:
 
@@ -151,9 +152,9 @@ curl http://localhost:<PORT>/api/health
 # Czy strona się ładuje bez błędów?
 ```
 
-> Porty dostosuj do swojego projektu — sprawdź w `docker-compose.yml`.
+> Porty dostosuj do swojego projektu - sprawdź w `docker-compose.yml`.
 
-Jeśli te dwie rzeczy działają — smoke test przeszedł. Jeśli nie — wklej błąd do AI. Napraw zanim idziesz dalej.
+Jeśli te dwie rzeczy działają - smoke test przeszedł. Jeśli nie - wklej błąd do AI. Napraw zanim idziesz dalej.
 
 ### 2. Happy path (5 minut)
 
@@ -163,14 +164,14 @@ Przykład (habit tracker):
 1. Otwórz apkę
 2. Dodaj nowy nawyk ("Ćwiczenia")
 3. Zaznacz nawyk jako wykonany
-4. Odśwież stronę — czy nawyk nadal jest?
-5. Sprawdź streak — czy się zmienił?
+4. Odśwież stronę - czy nawyk nadal jest?
+5. Sprawdź streak - czy się zmienił?
 
-Dla Twojej apki przetestuj analogiczny flow — ten najważniejszy scenariusz z PRD. Jeśli działa — happy path jest OK.
+Dla Twojej apki przetestuj analogiczny flow - ten najważniejszy scenariusz z PRD. Jeśli działa, happy path jest OK.
 
 ### 3. Testy automatyczne z AI (10 minut)
 
-Testy automatyczne sprawdzają za Ciebie po każdej zmianie. Nie musisz ich pisać sam — poproś AI:
+Testy automatyczne sprawdzają za Ciebie po każdej zmianie. Nie musisz ich pisać sam - poproś AI:
 
 ```
 Dodaj podstawowe testy do mojego projektu:
@@ -184,7 +185,7 @@ Minimum kodu, maksimum pokrycia kluczowych ścieżek.
 AI wygeneruje testy. Uruchom je:
 
 ```bash
-# Komenda zależy od stacku — sprawdź w TECH_STACK.md
+# Komenda zależy od stacku - sprawdź w TECH_STACK.md
 # Przykłady: pytest, npm test, pnpm test, go test ./...
 ```
 
@@ -194,7 +195,7 @@ Zielono? Super. Czerwono? Wklej błąd do AI i napraw.
 
 ## Szybki przegląd kodu z AI
 
-AI pisze kod szybko, ale nie zawsze dobrze. Zanim wypchniesz na GitHuba, zrób szybki przegląd. Nie potrzebujesz 20-punktowej checklisty — wystarczą 3 priorytety:
+AI pisze kod szybko, ale nie zawsze dobrze. Zanim wypchniesz na GitHuba, zrób szybki przegląd. Nie potrzebujesz 20-punktowej checklisty - wystarczą 3 priorytety:
 
 ### 1. Bezpieczeństwo (napraw teraz)
 - Czy są hasła/klucze API wpisane na sztywno w kodzie?
@@ -240,7 +241,7 @@ Po dzisiejszych krokach masz:
 - [x] Przegląd kodu zrobiony (brak krytycznych problemów)
 - [x] .gitignore skonfigurowany (brak sekretów w repo)
 
-To jest kod, który możesz wdrożyć. Nie idealny, nie pokryty testami na 100%, ale działający, po przeglądzie i bezpieczny.
+To jest kod, który zwykle warto wdrażać dalej. Nie idealny i nie pokryty testami na 100%, ale działający, po przeglądzie i z podstawowymi zabezpieczeniami.
 
 ---
 
@@ -259,7 +260,7 @@ To jest kod, który możesz wdrożyć. Nie idealny, nie pokryty testami na 100%,
 ## FAQ
 
 ### Czy naprawdę potrzebuję GitHuba już na tym etapie?
-Tak. To jednocześnie backup, historia zmian i baza pod deploy. Nawet prosty projekt dużo zyskuje, gdy masz możliwość szybkiego powrotu do działającego commita. Brak repo kończy się chaosem przy pierwszej większej poprawce.
+Warto. To jednocześnie backup, historia zmian i baza pod deploy. Nawet prosty projekt dużo zyskuje, gdy masz możliwość szybkiego powrotu do działającego commita.
 
 ### Co zrobić, jeśli boję się komend Gita?
 Trzymaj się minimum: `git add .`, `git commit -m "..."`, `git push`. Nie musisz znać zaawansowanych flow na start. Commituj regularnie i opisuj, co zmieniłeś.
@@ -268,25 +269,25 @@ Trzymaj się minimum: `git add .`, `git commit -m "..."`, `git push`. Nie musisz
 Na start: smoke test, happy path i podstawowe testy backendu. Celem nie jest 100% pokrycia, tylko pewność, że główny przepływ działa. Testy dokładasz razem z rozwojem funkcji.
 
 ### Jak odróżnić błąd krytyczny od drobnego?
-Krytyczny psuje bezpieczeństwo, dane lub podstawowe działanie. Ważny utrudnia użycie lub prowadzi do błędów później. Drobny to kosmetyka — zajmij się tym w wolnej chwili.
+Krytyczny psuje bezpieczeństwo, dane lub podstawowe działanie. Ważny utrudnia użycie lub prowadzi do błędów później. Drobny to kosmetyka - zajmij się tym w wolnej chwili.
 
 ### Kiedy robić commit: przed czy po review?
 Po. Najpierw domknij task, zrób szybki review i testy, a dopiero potem commit. Dzięki temu każdy commit to stabilny, sensowny krok.
 
 ### Nie mam Gita. Czy to konieczne?
-Tak. Bez repo nie zrobisz deployu w Lekcji 5, nie masz backupu, nie masz historii. Prompt z sekcji "Instalacja" pomoże zainstalować w 5 minut.
+Warto. Bez repo trudniej zrobić deploy w Lekcji 5 i wracać do stabilnych wersji. Prompt z sekcji "Instalacja" przeprowadzi Cię przez setup krok po kroku.
 
 ### Czy mogę użyć GitLab/Bitbucket zamiast GitHuba?
 Tak. Komendy Gita są identyczne. Różni się tylko adres remote. Prompt do konfiguracji działa tak samo.
 
 ---
 
-Jutro finał rdzenia kursu — Lekcja 5: **deploy na VPS w 30 minut**. Twoja apka będzie dostępna pod Twoją domeną, z HTTPS, za ~20 zł miesięcznie.
+Jutro finał rdzenia kursu - Lekcja 5: **deploy na VPS**. Przejdziemy przez wystawienie aplikacji pod domeną, HTTPS i bazowy koszt utrzymania.
 
 Do jutra!
 Bartek
 
-PS. Jeśli masz pytanie o Gita, testy albo przegląd kodu — pisz. Nie ma głupich pytań.
+PS. Jeśli masz pytanie o Gita, testy albo przegląd kodu - pisz. Nie ma głupich pytań.
 
 ---
 

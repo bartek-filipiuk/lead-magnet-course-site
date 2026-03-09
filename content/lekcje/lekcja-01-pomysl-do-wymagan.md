@@ -9,19 +9,21 @@ Hej!
 
 Witaj w mini-kursie **"Od pomysłu do deploy w weekend"**.
 
-Przez 5 dni pokażę Ci cały proces: od jednego zdania z pomysłem do działającej aplikacji pod Twoją domeną. Konkretne kroki, które możesz powtórzyć w weekend.
+Przez 5 dni pokażę Ci cały proces: od jednego zdania z pomysłem do działającej aplikacji pod Twoją domeną. Konkretne kroki, które są powtarzalne dla różnego rodzaju aplikacji.
 
-Zaczynamy od kroku, który wiele osób pomija: **zamiany pomysłu w konkretne wymagania**.
+W każdej lekcji dostajesz gotowe prompty do skopiowania i użycia od razu w praktyce.
+
+Zaczynamy od jednego z ciekawszych i ważniejszych kroków: **zamiany pomysłu w konkretne wymagania**.
 
 ---
 
-## Problem: "Mam pomysł, ale nie wiem od czego zacząć"
+## Problem: "Mam pomysł, ale jak zaplanować aby dobrze wystartować z projektem?"
 
 Większość side projectów umiera, zanim powstanie pierwsza linijka kodu. Dlaczego?
 
 Bo skaczemy od razu do kodowania. Otwieramy edytor, agenta, piszemy prompt i po 3 godzinach mamy piękny PoC (Proof of Concept) czegoś co działa... ale dalej nie wiemy, co właściwie budujemy.
 
-**Rozwiązanie:** zanim dotkniesz klawiatury, potrzebujesz PRD — Product Requirements Document. Brzmi korporacyjnie? Spokojnie. Z AI zrobisz to w krótkim czsie.
+**Rozwiązanie:** zanim zaczniesz kodować (zlecać kodowanie), stwórz PRD - Product Requirements Document. Z AI zrobisz to w prosty sposób.
 
 ---
 
@@ -33,18 +35,20 @@ Zacznij od jednego zdania opisującego Twój pomysł. Przykład:
 
 To wszystko. Nie musisz mieć pełnej wizji. Jedno zdanie wystarczy.
 
+Jeśli masz już szerszą wizję, też ją wklej. Jedno zdanie to minimum na start, ale większy kontekst często pomaga AI zadawać lepsze pytania.
+
 ---
 
 ## Krok 2: Daj AI zadać Ci pytania
 
-Teraz, zamiast sam wymyślać wymagania, pozwól AI Ci w tym pomóc. Wklej ten prompt do Claude, ChatGPT lub innego modelu:
+Teraz, zamiast sam wymyślać wymagania, pozwól AI Ci w tym pomóc. Wklej ten prompt do agenta AI np Claude Code, Codex, Cursor itp:
 
 ```
 Jesteś ekspertem od planowania projektów IT. Mam pomysł na projekt:
 
 "[TWÓJ POMYSŁ W JEDNYM ZDANIU]"
 
-Zadaj mi dokładnie 15 pytań, które pomogą stworzyć konkretny
+Zadaj mi 15 pytań, które pomogą stworzyć konkretny
 dokument wymagań (PRD). Pytania powinny dotyczyć:
 
 - Cel projektu i metryki sukcesu
@@ -62,12 +66,12 @@ Czekaj na moją odpowiedź przed kolejnym pytaniem.
 
 ## Krok 3: Odpowiadaj krótko i szczerze
 
-AI zada Ci 15 pytań. Odpowiadaj krótko — 1-3 zdania na pytanie. Nie musisz mieć odpowiedzi na wszystko. Możesz powiedzieć "nie wiem, zaproponuj coś" albo "to nie jest ważne na początek".
+AI zada Ci 15 pytań. Odpowiadaj krótko - 1-3 zdania na pytanie. Nie musisz mieć odpowiedzi na wszystko. Możesz powiedzieć "nie wiem, zaproponuj coś" albo "to nie jest ważne na początek".
 
 **Przykładowe pytanie AI:** "Kto jest głównym użytkownikiem aplikacji?"
 **Twoja odpowiedź:** "Ja sam na początek. Może potem otworzę dla znajomych. Na razie single-user."
 
-To pomaga, bo AI często **wyłapie rzeczy, o których jeszcze nie myślałeś**. Na przykład: "Czy chcesz powiadomienia push, gdy nie zaznaczysz nawyku?" — lepiej zdecydować to teraz niż w środku kodowania.
+To pomaga, bo AI często **wyłapie rzeczy, o których jeszcze nie myślałeś**. Na przykład: "Czy chcesz powiadomienia push, gdy nie zaznaczysz nawyku?" - lepiej zdecydować to teraz niż w środku kodowania.
 
 ---
 
@@ -94,7 +98,7 @@ Zapisz jako PRD.md
 
 ## Co dostajesz
 
-Gotowy plik `PRD.md` — zwykle 2-4 strony — który:
+Gotowy plik `PRD.md` — zwykle 2-4 strony, który:
 
 - Jasno definiuje, CO budujemy (i czego NIE)
 - Ma konkretne user stories ("Jako użytkownik chcę X, żeby Y")
@@ -108,19 +112,27 @@ Gotowy plik `PRD.md` — zwykle 2-4 strony — który:
 ## Dlaczego to działa
 
 1. **AI zadaje pytania, które łatwo pominąć.** Np. logowanie, role użytkowników, limity, przypadki błędów.
-2. **Wymuszone decyzje.** "Czy potrzebuję logowania?" — lepiej zdecydować teraz niż w połowie kodowania.
+2. **Wymuszone decyzje.** "Czy potrzebuję logowania?" - lepiej zdecydować teraz niż w połowie kodowania.
 3. **Kontrola zakresu.** PRD jasno mówi, co jest IN, a co OUT. Nie będziesz dokładał funkcji w nieskończoność.
 4. **15 minut planu vs godziny poprawek.** Krótki plan na początku zwykle oszczędza sporo czasu później.
+
+---
+
+## Szybka checklista przed startem
+
+1. Mam roboczy opis pomysłu.
+2. Wkleiłem prompt z Kroku 2.
+3. Mam zapisany plik `PRD.md`.
 
 ---
 
 ## Zadanie domowe
 
 1. Wymyśl pomysł na projekt (lub użyj: "Aplikacja do śledzenia nawyków ze streakami")
-2. Wklej prompt z Kroku 2 do dowolnego AI (Claude, ChatGPT, Gemini)
+2. Wklej prompt z Kroku 2 do narzędzia z agentem AI do kodowania.
 3. Odpowiedz na 15 pytań
 4. Wygeneruj PRD.md
-5. Zapisz plik — jutro go użyjemy
+5. Zapisz plik - jutro go użyjemy (albo za chwilę)
 
 **Ile czasu to zajmie?** 15-20 minut.
 
@@ -141,19 +153,19 @@ To normalne. Odpowiedz "nie wiem" i poproś AI o 2-3 sensowne warianty. Najważn
 W tej wersji nie. Tu PRD to krótka mapa decyzji, a nie korporacyjny dokument na 40 stron. Wystarczy 2-4 strony, by uniknąć chaosu podczas kodowania.
 
 ### Jakiego narzędzia AI użyć do tego kroku?
-Dowolnego, które dobrze prowadzi dialog: Claude Code, Codex, ChatGPT, Cursor, Windsurf. Kluczowe jest to, żeby model zadawał pytania jedno po drugim i czekał na Twoją odpowiedź.
+Dowolnego, które dobrze prowadzi dialog: Claude Code, Codex, Cursor, Windsurf. Kluczowe jest to, żeby model zadawał pytania jedno po drugim i czekał na Twoją odpowiedź.
 
 ### Czy mogę zmienić PRD później, gdy lepiej zrozumiem projekt?
 Tak, PRD nie jest „na zawsze”. Traktuj go jak żywy dokument. Aktualizuj go po ważnych decyzjach, żeby plan i kod dalej były spójne.
 
 ---
 
-Jutro w Lekcji 2: weźmiesz ten PRD i zamienisz go w **konkretny plan budowy** — z tech stackiem i checkboxami do odhaczania.
+Jutro w Lekcji 2: weźmiesz ten PRD i zamienisz go w **konkretny plan budowy** - z tech stackiem i checkboxami do odhaczania.
 
 Do jutra!
 Bartek
 
-PS. Masz pytania? Odpowiedz na ten email — czytam wszystko.
+PS. Masz pytania? Odpowiedz na ten email.
 
 ---
 

@@ -1,6 +1,6 @@
 # Verification Prompt
 
-**Niezależny prompt audytowy.** Wklej go do DOWOLNEGO agenta AI (Claude Code, Cursor, Windsurf, ChatGPT — cokolwiek używasz) w katalogu swojego projektu, żeby sprawdzić aktualny stan.
+**Niezależny prompt audytowy.** Wklej go do DOWOLNEGO agenta AI (Claude Code, Cursor, Windsurf, ChatGPT - cokolwiek używasz) w katalogu swojego projektu, żeby sprawdzić aktualny stan.
 
 ---
 
@@ -36,7 +36,7 @@ Następnie wykonaj pełny audyt:
 ## Raport weryfikacji projektu
 
 **Data:** [YYYY-MM-DD]
-**Faza:** [określ na podstawie istniejących artefaktów — Phase 1/2/3 Stage N/4/5]
+**Faza:** [określ na podstawie istniejących artefaktów - Phase 1/2/3 Stage N/4/5]
 
 ### Artefakty
 
@@ -71,7 +71,7 @@ Następnie wykonaj pełny audyt:
 
 1. [Lista brakujących artefaktów]
 2. [Lista niekompletnych sekcji]
-3. [Znalezione hardcoded secrets — jeśli są]
+3. [Znalezione hardcoded secrets - jeśli są]
 
 ### Rekomendacje
 

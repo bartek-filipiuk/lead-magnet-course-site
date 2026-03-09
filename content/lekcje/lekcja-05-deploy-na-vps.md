@@ -1,23 +1,19 @@
-# Lekcja 5: Deploy na VPS w 30 minut
+# Lekcja 5: Deploy na VPS - krok po kroku
 
-**Subject line:** Deploy na VPS w 30 minut za 20 zł/mies [Lekcja 5/5]
-**Preview text:** Docker + Hetzner + Caddy = Twoja apka pod własną domeną z HTTPS. Finał rdzenia kursu!
+**Subject line:** Deploy na VPS krok po kroku [Lekcja 5/5]
+**Preview text:** Docker + VPS + Caddy: publikacja aplikacji pod własną domeną i HTTPS.
 
 ---
 
 Hej!
 
-To ostatnia lekcja rdzenia kursu. W około 30 minut wystawisz aplikację pod **własną domeną**, z automatycznym HTTPS, za około 20 zł miesięcznie.
+To ostatnia lekcja kursu. Z niej dowiesz się jak wystawić aplikację pod **własną domeną**, z automatycznym HTTPS.
 
-Do tej pory Twoja apka działa na Twoim komputerze. Nikt inny jej nie widzi. Żeby to zmienić, potrzebujesz serwera — komputera włączonego 24/7, podłączonego do internetu. VPS to kawałek takiego komputera, który wynajmujesz.
-
-Analogia: Twój laptop to Twoje mieszkanie. VPS to wynajęte biuro — ludzie mogą przychodzić bez zapraszania do domu.
-
-Za chwilę kupisz VPS, wrzucisz kod i skonfigurujesz tak, żeby każdy mógł wejść przez przeglądarkę.
+Do tej pory Twoja apka działa na Twoim komputerze. Nikt inny jej nie widzi. Żeby to zmienić, potrzebujesz serwera - komputera włączonego 24/7, podłączonego do internetu. VPS to kawałek takiego komputera, który wynajmujesz.
 
 ---
 
-## Dlaczego VPS, a nie Vercel/Railway?
+## Dlaczego VPS, a nie Vercel/Railway lub inny Cloud Provider?
 
 | | Vercel/Railway | VPS (Hetzner) |
 |---|---|---|
@@ -28,25 +24,25 @@ Za chwilę kupisz VPS, wrzucisz kod i skonfigurujesz tak, żeby każdy mógł we
 | Wiele apek | Każda osobno ($) | Bez limitu na jednym VPS |
 | Nauka | Zero | Dużo (ale raz się uczysz) |
 
-Dla wielu side projectów VPS wygrywa kosztowo. Za 20 zł/mies masz serwer, na którym uruchomisz 5-10 aplikacji. Na Vercelu każda z nich kosztuje osobno.
+Dla wielu side projectów VPS wygrywa kosztowo. Za ~20 zł/mies masz serwer, na którym uruchomisz 5-10 aplikacji. Na Vercelu każda z nich kosztuje osobno.
 
 ---
 
-## Kup VPS na Hetzner (5 minut)
+## Kup VPS na Hetzner lub u innego dostawcy
 
-Dlaczego Hetzner? Tani (~20 PLN/mies), serwery blisko Polski (Helsinki, Falkenstein), solidny.
+Dlaczego Hetzner? To często opłacalna opcja na start: niski koszt, serwery blisko Polski (Helsinki, Falkenstein) i prosty panel.
 
 1. Wejdź na [hetzner.com/cloud](https://www.hetzner.com/cloud/)
 2. Załóż konto (potrzebujesz karty)
 3. Stwórz serwer:
    - **Lokalizacja:** Helsinki lub Falkenstein (najbliżej Polski)
    - **OS:** Ubuntu 24.04
-   - **Typ:** CX22 (2 vCPU, 4GB RAM) — **€4.35/mies**
+   - **Typ:** CX22 (2 vCPU, 4GB RAM) - **€4.35/mies**
    - **SSH Key:** dodaj swój klucz publiczny
 
 Klucz SSH to jak hasło, ale bezpieczniejsze. Serwer rozpoznaje Twój komputer po kluczu zamiast po haśle.
 
-Jeśli nie masz klucza SSH — wklej ten prompt do AI:
+Jeśli nie masz klucza SSH - wklej ten prompt do AI:
 
 ```
 Pomóż mi wygenerować klucz SSH i dodać go do Hetzner.
@@ -55,7 +51,7 @@ Mój system: [Windows / macOS / Linux]
 
 Potrzebuję:
 1. Sprawdzić czy mam już klucz SSH (~/.ssh/id_ed25519.pub)
-2. Jeśli nie — wygenerować nowy (ssh-keygen -t ed25519)
+2. Jeśli nie - wygenerować nowy (ssh-keygen -t ed25519)
 3. Wyświetlić klucz publiczny do skopiowania
 4. Wyjaśnić gdzie go wkleić w panelu Hetzner
 
@@ -64,22 +60,24 @@ Instrukcja krok po kroku, z wyjaśnieniem.
 
 > Prompt do pobrania: [PROMPT_SSH_SETUP.md](https://vibe.devince.dev/prompts/PROMPT_SSH_SETUP.md)
 
-4. Kliknij "Create" — serwer gotowy w 30 sekund.
+4. Kliknij "Create" - serwer zwykle jest gotowy w kilkadziesiąt sekund.
 5. Zapisz IP serwera (np. `65.108.xxx.xxx`).
 
 ---
 
-## Skonfiguruj serwer (10 minut)
+## Skonfiguruj serwer
 
-Łączysz się z serwerem przez SSH — zdalny terminal. Komendy, które wpisujesz, wykonują się na serwerze, nie na Twoim laptopie.
+Łączysz się z serwerem przez SSH - zdalny terminal. Komendy, które wpisujesz, wykonują się na serwerze, nie na Twoim laptopie.
 
 ```bash
 ssh root@65.108.xxx.xxx
 ```
 
+W tym kursie używamy Caddy, bo ma prostą konfigurację i automatyczne HTTPS. Alternatywy (Nginx, Apache, Traefik) też są dobre, ale na start zwykle wymagają więcej ręcznych kroków.
+
 Teraz instalujesz dwie rzeczy: Docker i Caddy.
 
-**Docker** uruchamia apkę identycznie jak lokalnie. Zero niespodzianek — jeśli działało na laptopie, zadziała na serwerze.
+**Docker** uruchamia apkę podobnie jak lokalnie i ogranicza różnice środowiskowe między laptopem a serwerem.
 
 **Caddy** to kierownik ruchu. Gdy ktoś wpisze Twój adres: (1) przyjmie połączenie, (2) zaszyfruje je (HTTPS), (3) przekieruje do apki. Automatycznie.
 
@@ -101,7 +99,9 @@ czy wszystko poszło OK.
 
 > Prompt do pobrania: [PROMPT_VPS_CONFIG.md](https://vibe.devince.dev/prompts/PROMPT_VPS_CONFIG.md)
 
-A jeśli wolisz ręcznie — oto komendy:
+A jeśli wolisz ręcznie - oto komendy:
+
+Poniższe komendy są dla Ubuntu/Debian. Na innych dystrybucjach kroki i nazwy pakietów mogą się różnić.
 
 ```bash
 # Aktualizacja systemu (jak Windows Update, ale szybsza)
@@ -127,14 +127,14 @@ apt install caddy
 
 ---
 
-## Hardening — zabezpieczenie serwera (opcjonalne)
+## Hardening - zabezpieczenie serwera (opcjonalne)
 
-Na start możesz pominąć ten krok. Ale jeśli chcesz dodać warstwę bezpieczeństwa — wklej do AI:
+Na start możesz pominąć ten krok. Ale jeśli chcesz dodać warstwę bezpieczeństwa - wklej do AI:
 
 ```
 Pomóż mi zabezpieczyć serwer VPS (Ubuntu 24.04):
 1. Utwórz osobnego użytkownika z sudo (zamiast root)
-2. Skonfiguruj firewall (ufw) — otwórz tylko porty 22, 80, 443
+2. Skonfiguruj firewall (ufw) - otwórz tylko porty 22, 80, 443
 3. Wyłącz logowanie root przez SSH
 
 Krok po kroku z wyjaśnieniami.
@@ -142,11 +142,11 @@ Krok po kroku z wyjaśnieniami.
 
 > Prompt do pobrania: [PROMPT_VPS_HARDENING.md](https://vibe.devince.dev/prompts/PROMPT_VPS_HARDENING.md)
 
-Jeśli to pomijasz — wrócisz do tego później. Na start root wystarczy.
+Jeśli to pomijasz - wrócisz do tego później. Na start root zwykle wystarcza.
 
 ---
 
-## Domena i DNS (5 minut)
+## Domena i DNS (orientacyjnie 5 minut)
 
 DNS to książka telefoniczna internetu. Mówisz: "mojaapka.pl = serwer 65.108.xxx.xxx" i każdy, kto wpisze Twój adres, trafi na Twój serwer.
 
@@ -159,13 +159,13 @@ U rejestratora domen (np. OVH, Cloudflare, Porkbun) dodaj rekord DNS:
 | Wartość | 65.108.xxx.xxx (IP Twojego VPS) |
 | TTL | 300 |
 
-Jeśli nie masz domeny — na początek użyj darmowej subdomeny z freedns.afraid.org, albo po prostu wchodź po IP.
+Jeśli nie masz domeny - na początek użyj darmowej subdomeny z freedns.afraid.org, albo po prostu wchodź po IP.
 
-Propagacja DNS trwa od minut do godzin. Jeśli domena nie działa od razu — poczekaj. Większość zmian wchodzi w ciągu 5-15 minut, ale czasem trwa dłużej.
+Propagacja DNS trwa od minut do godzin. Jeśli domena nie działa od razu - poczekaj. Często zmiany wchodzą w ciągu 5-15 minut, ale czasem trwa to dłużej.
 
 ---
 
-## Wrzuć kod na serwer (5 minut)
+## Wrzuć kod na serwer
 
 Na serwerze:
 
@@ -174,14 +174,20 @@ Na serwerze:
 mkdir -p /opt/apps
 cd /opt/apps
 
+# Sprawdź, czy Git jest dostępny
+git --version
+
+# git clone zadziała, jeśli repo jest dostępne z tego serwera.
+# Repo prywatne wymaga poprawnie skonfigurowanego dostępu (HTTPS lub SSH).
+
 # Sklonuj repo z GitHuba
 git clone https://github.com/TWÓJ-USER/TWÓJ-PROJEKT.git
 cd TWÓJ-PROJEKT
 ```
 
-### Plik .env — konfiguracja produkcyjna
+### Plik .env - konfiguracja produkcyjna
 
-.env to serce konfiguracji produkcyjnej. Tu są hasła, klucze, adresy bazy. Dlatego NIGDY nie trafia do Gita — tworzysz go osobno na serwerze.
+.env to serce konfiguracji produkcyjnej. Tu są hasła, klucze, adresy bazy. Dlatego NIGDY nie trafia do Gita - tworzysz go osobno na serwerze.
 
 Wklej prompt do AI:
 
@@ -194,7 +200,7 @@ Zmienne środowiskowe które potrzebuję:
 [dodaj swoje zmienne]
 
 Wygeneruj komendę która stworzy ten plik.
-Ważne: NIE kopiuj .env z laptopa — stwórz nowy z wartościami produkcyjnymi.
+Ważne: NIE kopiuj .env z laptopa - stwórz nowy z wartościami produkcyjnymi.
 ```
 
 > Prompt do pobrania: [PROMPT_ENV_SETUP.md](https://vibe.devince.dev/prompts/PROMPT_ENV_SETUP.md)
@@ -203,7 +209,7 @@ Możesz też edytować plik ręcznie: `nano .env` (Ctrl+O = zapisz, Ctrl+X = wyj
 
 ---
 
-## Uruchom z Docker Compose (3 minuty)
+## Uruchom z Docker Compose
 
 ```bash
 # Zbuduj i uruchom
@@ -225,11 +231,11 @@ curl http://localhost:8000/api/health
 # Powinno zwrócić: {"status": "ok"}
 ```
 
-Jeśli kontener jest w stanie "Restarting" lub "Exit" — sprawdź logi: `docker compose logs nazwa-kontenera`. Tam będzie komunikat błędu.
+Jeśli kontener jest w stanie "Restarting" lub "Exit" - sprawdź logi: `docker compose logs nazwa-kontenera`. Tam będzie komunikat błędu.
 
 ---
 
-## Skonfiguruj Caddy (5 minut)
+## Skonfiguruj Caddy
 
 Edytuj konfigurację Caddy:
 
@@ -269,9 +275,9 @@ Zrestartuj Caddy:
 systemctl reload caddy
 ```
 
-Twoja apka jest dostępna pod `https://mojaapka.twojadomena.pl`.
+Po poprawnej konfiguracji apka powinna być dostępna pod `https://mojaapka.twojadomena.pl`.
 
-Jeśli coś nie działa: (1) sprawdź DNS — czy domena wskazuje na Twoje IP, (2) sprawdź logi Caddy: `journalctl -u caddy -f`, (3) sprawdź czy porty 80/443 nie są zablokowane.
+Jeśli coś nie działa: (1) sprawdź DNS - czy domena wskazuje na Twoje IP, (2) sprawdź logi Caddy: `journalctl -u caddy -f`, (3) sprawdź czy porty 80/443 nie są zablokowane.
 
 ---
 
@@ -280,7 +286,7 @@ Jeśli coś nie działa: (1) sprawdź DNS — czy domena wskazuje na Twoje IP, (
 1. Otwórz `https://mojaapka.twojadomena.pl` w przeglądarce
 2. Sprawdź, czy jest kłódeczka HTTPS
 3. Przetestuj happy path (dodaj nawyk, zaznacz, odśwież)
-4. Sprawdź na telefonie — czy działa na mobile?
+4. Sprawdź na telefonie - czy działa na mobile?
 
 ---
 
@@ -295,7 +301,7 @@ git pull
 docker compose up -d --build
 ```
 
-To cały Twój proces wdrażania. 4 komendy. Bez CI/CD, bez Pipeline'ów.
+W najprostszym wariancie to 4 komendy. Bez CI/CD i bez pipeline'ów.
 
 ---
 
@@ -308,7 +314,7 @@ To cały Twój proces wdrażania. 4 komendy. Bez CI/CD, bez Pipeline'ów.
 | SSL | Darmowy (Let's Encrypt) |
 | **Razem** | **~22 PLN/mies** |
 
-Za 22 PLN miesięcznie masz własny serwer, na którym uruchomisz wiele aplikacji. Każda kolejna apka to koszt 0 zł — dodajesz nowy wpis w Caddyfile.
+Przy takim wariancie kosztowym masz własny serwer, na którym możesz uruchomić więcej niż jedną aplikację. Każda kolejna zwykle podnosi koszt wolniej niż przy osobnym hostingu dla każdej apki.
 
 ---
 
@@ -322,9 +328,9 @@ Przez 5 dni przeszedłeś całą drogę:
 | 2 | PRD → Tech Stack + Plan | 15 minut |
 | 3 | Plan → Działająca apka | 30-60 minut |
 | 4 | Apka → Przetestowany kod w repo | 30-45 minut |
-| 5 | Repo → Apka pod Twoją domeną | 30 minut |
+| 5 | Repo → Apka pod Twoją domeną | orientacyjnie 30 minut |
 
-**Łączny czas: 2-3 godziny.** Od jednego zdania do działającego projektu w internecie.
+**Łączny czas: orientacyjnie 2-3 godziny.** Od jednego zdania do projektu dostępnego w internecie.
 
 To proces, którego sam używam przy projektach. Tak powstał m.in. [videtion.com](https://videtion.com) (SaaS do zamiany video w artykuły) i kilka innych narzędzi.
 
@@ -332,7 +338,7 @@ To proces, którego sam używam przy projektach. Tak powstał m.in. [videtion.co
 
 ## Bonus po Lekcji 5: Jak rozwijać apkę dalej (Lekcja 6)
 
-Deploy to nie meta — to dopiero start. Kolejny etap to dokładanie nowych funkcji w uporządkowany sposób.
+Deploy to nie meta - to dopiero start. Kolejny etap to dokładanie nowych funkcji w uporządkowany sposób.
 
 Dlatego po tym mailu przejdź do bonusowej Lekcji 6, gdzie dostajesz proces:
 - jak wybierać kolejną funkcję (wartość vs koszt),
@@ -357,7 +363,7 @@ Prompty z Lekcji 1-2 to uproszczona wersja. Pełny system (12 plików, vertical 
 **[github.com/devince-dev/ai-driven-development](https://github.com/devince-dev/ai-driven-development)**
 
 ### 3. YouTube
-Pokazuję cały proces na żywo — publiczne budowanie. Screencasty z budowania, wdrożeń i przeglądu kodu AI:
+Pokazuję cały proces na żywo - publiczne budowanie. Screencasty z budowania, wdrożeń i przeglądu kodu AI:
 **[@devince na YouTube](https://youtube.com/@devince)**
 
 ### 4. Newsletter
@@ -380,8 +386,8 @@ Tymczasowo testuj po IP serwera albo użyj darmowej subdomeny. Domena nie blokuj
 ### Skąd mam wiedzieć, czy DNS już się rozpropagował?
 Sprawdź rekord A np. przez `dig mojaapka.twojadomena.pl` albo narzędzia online typu DNS Checker. Jeśli domena jeszcze nie wskazuje na Twój VPS, Caddy może nie wystawić certyfikatu od razu.
 
-### Caddy nie wystawia certyfikatu — co sprawdzić?
-Kolejność: (1) DNS — czy wskazuje na właściwe IP, (2) porty 80/443 — czy są otwarte, (3) składnia Caddyfile — czy nie ma literówki. Logi: `journalctl -u caddy -f`. W 80% przypadków to DNS.
+### Caddy nie wystawia certyfikatu - co sprawdzić?
+Kolejność: (1) DNS - czy wskazuje na właściwe IP, (2) porty 80/443 - czy są otwarte, (3) składnia Caddyfile - czy nie ma literówki. Logi: `journalctl -u caddy -f`. Najczęściej problem leży w DNS.
 
 ### Czy wszystko uruchamiać jako root?
 Na start w mini-projekcie to najprostsze. Docelowo lepiej mieć osobnego użytkownika (patrz sekcja "Hardening"). Popraw to po pierwszym działającym deployu.
@@ -393,24 +399,24 @@ Na start w mini-projekcie to najprostsze. Docelowo lepiej mieć osobnego użytko
 Sprawdź: (1) czy API kontener jest "Up" (`docker compose ps`), (2) czy port i `reverse_proxy` w Caddy wskazują właściwy adres, (3) czy `/api/health` odpowiada lokalnie na serwerze. Potem szukaj problemu w kodzie.
 
 ### Ile aplikacji mogę trzymać na jednym VPS?
-Dla małych projektów zwykle kilka bez problemu. Monitoruj zużycie (`htop`, `docker stats`). Jak zacznie brakować RAM — skaluj serwer.
+Dla małych projektów zwykle kilka. Monitoruj zużycie (`htop`, `docker stats`). Jak zacznie brakować RAM - skaluj serwer.
 
 ### Co to jest SSH i czy muszę się tego bać?
 Bezpieczne połączenie z serwerem przez terminal. Wpisujesz komendy tekstem, serwer je wykonuje. Jak rozmowa telefoniczna, tylko tekstem. Nic strasznego.
 
 ### Czy mogę użyć innego hostingu niż Hetzner?
-Tak. DigitalOcean, Vultr, OVH — proces identyczny. Hetzner jest najtańszy w Europie, dlatego go polecam.
+Tak. DigitalOcean, Vultr i OVH będą działać podobnie. Hetzner jest tu przykładem opłacalnej opcji w Europie.
 
 ---
 
 Dzięki, że przeszedłeś ten kurs. Mam nadzieję, że Twój pierwszy side project już działa pod własną domeną.
 
-Jeśli masz pytania — **odpowiedz na ten email**. Czytam każdą wiadomość.
+Jeśli masz pytania - **odpowiedz na ten email**. Czytam każdą wiadomość.
 
 Do zobaczenia!
 Bartek
 
-PS. Jeśli ten kurs Ci pomógł — podeślij go komuś, kto też chce budować. Link do zapisu: [devince.dev/kurs](https://devince.dev/kurs)
+PS. Jeśli ten kurs Ci pomógł - podeślij go komuś, kto też chce budować. Link do zapisu: [devince.dev/kurs](https://devince.dev/kurs)
 
 ---
 

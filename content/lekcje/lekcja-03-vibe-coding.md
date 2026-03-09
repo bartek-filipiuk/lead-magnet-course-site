@@ -1,7 +1,7 @@
-# Lekcja 3: Vibe coding — budowanie z AI
+# Lekcja 3: Vibe coding - budowanie z AI
 
 **Subject line:** Vibe coding: budujesz apkę, AI pisze kod [Lekcja 3/5]
-**Preview text:** Stage 1 gotowy w 30 minut. Jak kodować z AI i utrzymać porządek w projekcie.
+**Preview text:** Praktyczny workflow pracy z AI: mniej chaosu i więcej kontroli nad projektem.
 
 ---
 
@@ -9,7 +9,7 @@ Hej!
 
 Masz PRD, tech stack i plan z checkboxami. Dzisiaj otwierasz edytor i **zaczynasz budować**.
 
-Ale nie sam. Z AI jako Twoim koderem a ty nadrorujesz czy agent idzie w dobrym kierunku.
+Ale nie sam. AI koduje, a Ty nadajesz kierunek i sprawdzasz, czy agent idzie we właściwą stronę.
 
 ---
 
@@ -17,7 +17,7 @@ Ale nie sam. Z AI jako Twoim koderem a ty nadrorujesz czy agent idzie w dobrym k
 
 Termin ukuł Andrej Karpathy (współzałożyciel OpenAI). Chodzi o to, że **opisujesz, co chcesz, a AI pisze kod**. Ty nawigujesz, AI koduje.
 
-Brzmi jak magia? Czasem tak. Ale są też pułapki. Pokażę Ci, jak pracować tak, żeby nie tracić czasu na poprawki.
+Brzmi jak magia? Czasem tak. Ale są też pułapki. Pokażę Ci, jak pracować tak, żeby ograniczyć czas poprawek.
 
 ---
 
@@ -25,19 +25,19 @@ Brzmi jak magia? Czasem tak. Ale są też pułapki. Pokażę Ci, jak pracować t
 
 Masz dwa główne podejścia/środowiska:
 
-**1. Claude Code (terminal), Codex, OpenCode i inne cli**
-- Działa w terminalu — dajesz polecenia, AI modyfikuje pliki
+**1. Claude Code (terminal), Codex, OpenCode i inne CLI**
+- Działa w terminalu - dajesz polecenia, AI modyfikuje pliki
 - Widzi cały projekt, może uruchamiać komendy
-- Najlepszy do backendów, setupów, devops
+- Wygodny przy backendzie, setupie i zadaniach DevOps
 - Koszt: ~$20/mies do 200$
 
 **2. Cursor / Windsurf (IDE)**
 - Edytor kodu z wbudowanym AI
 - Podświetla kod, sugeruje zmiany inline
-- Najlepszy do frontendu, drobnych zmian
+- Wygodny przy pracy bezpośrednio w kodzie i szybkich poprawkach
 - Cursor/Windsurf: darmowy tier + $20/mies pro
 
-Na początek wystarczy jedno z nich. Ja używam Claude Code do większości pracy.
+Na początek wystarczy jedno z nich. Wybór zależy od typu zadania i Twojego stylu pracy.
 
 ---
 
@@ -47,7 +47,7 @@ Otwórz terminal w katalogu projektu. Wklej do Claude Code (lub analogicznie do 
 
 ```
 Przeczytaj pliki PRD.md, TECH_STACK.md i HANDOFF_STAGES_PLAN.md.
-Wykonaj Stage 1: Minimal Working Installation.
+Wykonaj Stage 1: Minimalna działająca aplikacja.
 Pracuj task po tasku, odhaczaj checkboxy w HANDOFF_STAGES_PLAN.md
 po ukończeniu każdego taska.
 Stosuj TDD (Test -> Fail -> Kod -> Pass), szczególnie w backendzie.
@@ -62,7 +62,6 @@ AI powinno:
 4. Stworzyć Dockerfiles i docker-compose
 5. Zweryfikować, że wszystko działa end-to-end
 
-**Czas: 15-30 minut.**
 
 ---
 
@@ -78,28 +77,28 @@ endpointu POST /api/habits. Przeczytaj PRD sekcję User Stories
 i zaimplementuj walidację zgodnie z kryteriami akceptacji."
 ```
 
-Im lepszy kontekst, tym zwykle lepszy kod. Gdy AI rozumie DLACZEGO coś robi, łatwiej trzyma kierunek — np. doda limit długości nazwy, jeśli to wynika z PRD.
+Im lepszy kontekst, tym zwykle lepszy kod. Gdy AI rozumie DLACZEGO coś robi, łatwiej trzyma kierunek, np. doda limit długości nazwy, jeśli to wynika z PRD.
 
 ### 2. Pracuj stage po stage'u
 
-Nie mów AI "zrób całą apkę". Pracuj stage po stage'u, task po tasku. Po każdym stage'u — sprawdź, czy działa, po prostu zapytaj agenta aby odpalił i dał Ci namiary na apkę.
+Nie mów AI "zrób całą apkę". Pracuj stage po stage'u, task po tasku. Po każdym stage'u sprawdź, czy działa - możesz poprosić agenta, żeby uruchomił projekt i podał adres aplikacji.
 
 ```
 "Wykonaj Stage 2, Task 2.1: Backend - Habits API.
 Po ukończeniu pokaż mi, co zrobiłeś i czekaj na mój przegląd."
 ```
 
-### 3. Przeglądaj kod — nie akceptuj ślepo
+### 3. Przeglądaj kod - nie akceptuj ślepo
 
 Po każdym tasku przejrzyj wygenerowany kod. Na co patrzeć:
 
 - **Czy robi to, co trzeba?** Porównaj z checkboxami w planie.
 - **Czy nie ma wartości wpisanych na sztywno?** (np. URL do API, hasła)
-- **Czy obsługuje błędy?** (co jeśli fetch się nie uda?)
-- **Czy jest czytelny?** Jeśli nie rozumiesz kodu — poproś AI o wyjaśnienie.
+- **Czy obsługuje błędy?**
+- **Czy jest czytelny?** Jeśli nie rozumiesz kodu - poproś AI o wyjaśnienie.
 
 ```
-"Wyjaśnij mi tę funkcję — co robi każda linia?"
+"Wyjaśnij mi tę funkcję - co robi każda linia?"
 ```
 
 Nie musisz rozumieć każdej linijki, ale warto rozumieć, **co robi każda funkcja**.
@@ -111,10 +110,10 @@ TIP: możesz poprosić agenta AI o przejrzenie wygenerowanego kodu w danym stage
 Po każdym stage'u:
 - Uruchom aplikację
 - Otwórz w przeglądarce
-- Przetestuj ręcznie — czy działa to, co miało działać?
-- Sprawdź konsolę przeglądarki (F12) — czy nie ma błędów?
+- Przetestuj ręcznie - czy działa to, co miało działać?
+- Sprawdź konsolę przeglądarki (F12) - czy nie ma błędów?
 
-Nie czekaj do końca. Błąd znaleziony po 30 minutach naprawiasz w 5 minut. Błąd znaleziony po 3 dniach naprawiasz pół dnia.
+Nie czekaj do końca. Błąd znaleziony po 30 minutach zwykle naprawisz szybciej niż ten odkryty po kilku dniach.
 
 W tym kursie dokładamy jedną twardą zasadę: **najpierw test, potem kod**. Szczególnie backend powinien iść cyklem: **Test -> Fail -> Kod -> Pass**.
 
@@ -124,7 +123,9 @@ W tym kursie dokładamy jedną twardą zasadę: **najpierw test, potem kod**. Sz
 "Zrób git commit z opisem, co zostało zrobione w tym stage'u."
 ```
 
-Jeśli coś się zepsuje — możesz wrócić do ostatniego działającego commita.
+Jeśli coś się zepsuje - możesz wrócić do ostatniego działającego commita.
+
+Szczegółowy workflow Git domkniemy w Lekcji 4.
 
 ---
 
@@ -138,6 +139,7 @@ Jeśli coś się zepsuje — możesz wrócić do ostatniego działającego commi
 4. Refactor
 5. Aktualizacja docs w `docs/*`
 6. Krótki przegląd + commit
+7. Aktualizacja planu w `HANDOFF_STAGES_PLAN.md`
 
 To zmniejsza ryzyko halucynacji i zostawia projekt w stanie czytelnym dla kolejnych iteracji.
 
@@ -176,7 +178,7 @@ Skopiuj błąd i wklej do AI:
 "Dostałem ten błąd: [WKLEJ BŁĄD]. Napraw to."
 ```
 
-AI często dobrze naprawia błędy — zwłaszcza gdy widzi pełny stack trace.
+AI często pomaga naprawiać błędy, zwłaszcza gdy widzi pełny stack trace.
 
 ### "AI chce użyć innej technologii, niż w planie"
 
@@ -185,7 +187,7 @@ AI często dobrze naprawia błędy — zwłaszcza gdy widzi pełny stack trace.
 Użyj [X] zamiast [Y]."
 ```
 
-Ty jesteś szefem. AI jest asystentem. Ty decydujesz.
+To Ty decydujesz o kierunku. AI jest asystentem.
 
 ### "AI zrobiło za dużo / za mało"
 
@@ -218,7 +220,7 @@ AI: [tworzy strukturę, FastAPI, React, Docker]
     "Stage 1 gotowy. docker-compose up uruchamia apkę
      na localhost:3000."
 
-Ty: [testujesz w przeglądarce — działa!]
+Ty: [testujesz w przeglądarce - działa]
     "Świetnie. Commituj i przejdź do Stage 2, Task 2.1."
 
 AI: [tworzy model Habit, endpoint POST /api/habits,
@@ -242,13 +244,13 @@ Widzisz schemat? **Ty nawigujesz, AI koduje, Ty weryfikujesz.**
 
 1. Wybierz narzędzie: Claude Code, Cursor, lub Windsurf
 2. Otwórz projekt z plikami PRD, Tech Stack, Plan
-3. Wykonaj Stage 1: Minimal Working Installation
-4. Przetestuj — czy apka się uruchamia?
+3. Wykonaj Stage 1: Minimalna działająca aplikacja
+4. Przetestuj - czy apka się uruchamia?
 5. Zrób `git init` i pierwszy commit
 
-**Ile czasu:** 30-60 minut.
+**Ile czasu:** orientacyjnie 30-60 minut.
 
-Po dzisiejszej lekcji masz **działającą, choć prostą aplikację**. Frontend rozmawia z backendem i to jest solidna baza pod kolejne funkcje.
+Po dzisiejszej lekcji, jeśli domkniesz Stage 1, powinieneś mieć **działający, prosty szkielet aplikacji**. Frontend rozmawia z backendem i to jest dobra baza pod kolejne funkcje.
 
 ---
 
@@ -266,7 +268,7 @@ Zatrzymaj pracę i poproś o cofnięcie ostatniego kroku, a potem realizację ty
 ### Czy naprawdę muszę robić TDD, skoro dopiero się uczę?
 Tak, szczególnie na backendzie. TDD wymusza jasny cel i szybciej pokazuje, czy funkcja działa. Dla początkującej osoby to prosty sposób, żeby nie zgadywać, czy kod jest poprawny.
 
-### Nie rozumiem części kodu od AI — co wtedy?
+### Nie rozumiem części kodu od AI - co wtedy?
 Poproś model o wyjaśnienie funkcji własnymi słowami i o przykład wejścia/wyjścia. Jeśli nadal niejasne, poproś o uproszczenie implementacji. Zrozumienie kierunku jest ważniejsze niż „sprytny” kod.
 
 ### Kiedy commitować: po tasku czy po całym stage’u?
@@ -277,12 +279,12 @@ Traktuj to jako sygnał, że implementacja jest niepełna albo niestabilna. Najp
 
 ---
 
-Jutro w Lekcji 4: przepływ pracy w Git, testy i przegląd kodu — czyli jak upewnić się, że Twój kod jest gotowy do pokazania światu.
+Jutro w Lekcji 4: przepływ pracy w Git, testy i przegląd kodu - czyli jak upewnić się, że Twój kod jest gotowy do pokazania światu.
 
 Do jutra!
 Bartek
 
-PS. Jeśli utknąłeś na Stage 1 — opisz problem w odpowiedzi na ten email. Pomogę.
+PS. Jeśli utknąłeś na Stage 1 - opisz problem w odpowiedzi na ten email. Pomogę.
 
 ---
 
