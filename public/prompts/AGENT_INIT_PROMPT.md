@@ -120,7 +120,7 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
 
 ### 🚧 GATE 2 - Weryfikacja przed Phase 3
 1. Wylistuj pliki w katalogu projektu.
-2. Sprawdź istnienie: `PRD.md`, `TECH_STACK.md`, `HANDOFF_STAGES_PLAN.md`.
+2. Sprawdź istnienie: `PRD.md`, `TECH_STACK.md`, `STACK_GUIDELINES.md`, `HANDOFF_STAGES_PLAN.md`.
    - Brak któregokolwiek = **BLOCKER**.
 3. Otwórz `HANDOFF_STAGES_PLAN.md` i zweryfikuj:
    - [ ] Ma Stage 1: Minimalna działająca aplikacja
@@ -129,7 +129,7 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
    - [ ] Każdy Stage ma sekcję Docs & Self-check (MANDATORY)
    - [ ] Ostatni Stage to Dopracowanie i finalizacja
 4. Otwórz `TECH_STACK.md` i zweryfikuj: zawiera uzasadnienie wyboru technologii.
-5. Pokaż wynik: **"GATE 2: 3/3 plików ✓, plan ma N stage'ów, security/docs tasks ✓"**
+5. Pokaż wynik: **"GATE 2: 4/4 plików ✓, plan ma N stage'ów, security/docs tasks ✓"**
 
 Jeśli wszystko OK → przejdź do Phase 3.
 Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 2.

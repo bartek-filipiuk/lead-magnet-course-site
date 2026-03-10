@@ -21,7 +21,7 @@ Następnie wykonaj pełny audyt:
    - Czy każdy stage ma sekcję/task **Docs & Self-check**?
 
 4. **Sprawdź kod źródłowy** pod kątem hardcoded secrets:
-   - Przeszukaj pliki `.py`, `.ts`, `.js`, `.tsx`, `.jsx`, `.env.example` pod kątem: `API_KEY=`, `PASSWORD=`, `SECRET=`, `TOKEN=` z wartością (nie placeholder)
+   - Przeszukaj wszystkie pliki kodu źródłowego i konfiguracji (pomijając `node_modules`, `.git`, `dist`, `build`, `venv`) pod kątem: `API_KEY=`, `PASSWORD=`, `SECRET=`, `TOKEN=` z wartością (nie placeholder)
    - Sprawdź czy `.env` jest w `.gitignore`
 
 5. **Sprawdź git:**
@@ -44,12 +44,14 @@ Następnie wykonaj pełny audyt:
 |------|--------|-------|
 | `PRD.md` | ✓ / ✗ | ... |
 | `TECH_STACK.md` | ✓ / ✗ | ... |
+| `STACK_GUIDELINES.md` | ✓ / ✗ | ... |
 | `HANDOFF_STAGES_PLAN.md` | ✓ / ✗ | ... |
 | `.gitignore` | ✓ / ✗ | ... |
 | `docs/README.md` | ✓ / ✗ | ... |
 | `docs/API.md` | ✓ / ✗ | ... |
 | `docs/CHANGELOG.md` | ✓ / ✗ | ... |
 | `docs/SECURITY.md` | ✓ / ✗ / N/A | ... |
+| Smoke test | ✓ / ✗ / N/A | ... |
 | `Caddyfile` | ✓ / ✗ / N/A | ... |
 | `docker-compose.yml` | ✓ / ✗ | ... |
 | `Dockerfile` | ✓ / ✗ | ... |
