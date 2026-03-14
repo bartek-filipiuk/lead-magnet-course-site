@@ -6,12 +6,14 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm build
 
-FROM nginx:alpine
-RUN apk add --no-cache apache2-utils
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY docker-entrypoint-custom.sh /docker-entrypoint.d/40-generate-htpasswd.sh
-RUN chmod +x /docker-entrypoint.d/40-generate-htpasswd.sh
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production HOST=0.0.0.0 PORT=80
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/content ./content
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
 EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
   CMD wget -qO- http://localhost/prompts/BOOTSTRAP_PROMPT.md || exit 1
+CMD ["node", "dist/server/entry.mjs"]

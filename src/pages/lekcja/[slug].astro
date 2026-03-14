@@ -1,24 +1,24 @@
 ---
+export const prerender = false;
+
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LessonVideo from "../../components/LessonVideo.astro";
+import EmailGate from "../../components/EmailGate.astro";
 import { getAllLessons, getLessonBySlug } from "../../lib/course";
-
-export function getStaticPaths() {
-  return getAllLessons().map((lesson) => ({
-    params: { slug: lesson.slug }
-  }));
-}
 
 const lesson = getLessonBySlug(Astro.params.slug);
 
 if (!lesson) {
-  throw new Error(`Nie znaleziono lekcji dla slug: ${Astro.params.slug}`);
+  return Astro.redirect("/404");
 }
 
 const allLessons = getAllLessons();
 const currentIndex = allLessons.findIndex((item) => item.slug === lesson.slug);
 const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
 const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
+
+const isGated = lesson.order > 1;
+const showFull = !isGated || Astro.locals.authenticated;
 ---
 
 <BaseLayout title={lesson.title} description={lesson.description}>
@@ -41,10 +41,13 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
     <LessonVideo videoUrl={lesson.videoUrl} title={lesson.title} />
 
     <div class="lesson-main">
-      <section class="lesson-content" set:html={lesson.html} />
+      <section
+        class:list={["lesson-content", { gated: isGated && !showFull }]}
+        set:html={showFull ? lesson.html : lesson.previewHtml}
+      />
 
       {
-        lesson.toc && lesson.toc.length > 0 ? (
+        showFull && lesson.toc && lesson.toc.length > 0 ? (
           <aside class="lesson-toc" aria-label="Spis sekcji lekcji">
             <h2>Spis sekcji</h2>
             <ol>
@@ -55,11 +58,13 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
       }
     </div>
 
+    {isGated && !showFull && <EmailGate />}
+
     <nav class="lesson-nav" aria-label="Nawigacja po lekcjach">
       {
         prevLesson ? (
           <a href={`/lekcja/${prevLesson.slug}/`} class="nav-card">
-            <span class="nav-card__direction">← Poprzednia lekcja</span>
+            <span class="nav-card__direction">&larr; Poprzednia lekcja</span>
             <span class="nav-card__title">{prevLesson.title}</span>
           </a>
         ) : <div />
@@ -67,7 +72,7 @@ const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentInde
       {
         nextLesson ? (
           <a href={`/lekcja/${nextLesson.slug}/`} class="nav-card nav-card--next">
-            <span class="nav-card__direction">Następna lekcja →</span>
+            <span class="nav-card__direction">Następna lekcja &rarr;</span>
             <span class="nav-card__title">{nextLesson.title}</span>
           </a>
         ) : <div />

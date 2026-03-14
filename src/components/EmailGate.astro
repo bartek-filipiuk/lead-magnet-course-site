@@ -1,0 +1,64 @@
+---
+---
+
+<div class="gate-overlay">
+  <div class="gate-box">
+    <h3>Odblokuj pełny kurs</h3>
+    <p>Wpisz hasło, które otrzymałeś w mailu po zapisie.</p>
+
+    <form id="unlock-form" class="gate-form">
+      <input type="password" name="password" placeholder="Hasło dostępowe" required />
+      <button type="submit">Odblokuj</button>
+    </form>
+    <p class="gate-error" id="gate-error" hidden></p>
+
+    <hr class="gate-divider" />
+    <p class="gate-signup-label">Nie masz jeszcze hasła?</p>
+    <div id="brevo-form">
+      <!-- PLACEHOLDER: Wklej tutaj HTML snippet formularza z Brevo dashboardu -->
+    </div>
+    <p class="gate-note">Po zapisie dostaniesz hasło na maila. Bez spamu.</p>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("unlock-form") as HTMLFormElement | null;
+  const errorEl = document.getElementById("gate-error") as HTMLParagraphElement | null;
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (errorEl) errorEl.hidden = true;
+
+    const password = new FormData(form).get("password") as string;
+    const btn = form.querySelector("button") as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = "Sprawdzam...";
+
+    try {
+      const res = await fetch("/api/unlock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        location.reload();
+        return;
+      }
+
+      const data = await res.json();
+      if (errorEl) {
+        errorEl.textContent = data.error || "Nieprawidłowe hasło.";
+        errorEl.hidden = false;
+      }
+    } catch {
+      if (errorEl) {
+        errorEl.textContent = "Błąd połączenia. Spróbuj ponownie.";
+        errorEl.hidden = false;
+      }
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Odblokuj";
+    }
+  });
+</script>

@@ -99,13 +99,39 @@ function getBySlug(slug) {
 
   const meta = extractMeta(markdown);
 
+  const previewMarkdown = splitAtHeading(anchoredMarkdown, 2);
+
   return {
     ...lesson,
     ...meta,
     markdown: anchoredMarkdown,
     html: marked.parse(anchoredMarkdown),
+    previewHtml: marked.parse(previewMarkdown),
     toc
   };
+}
+
+function splitAtHeading(markdown, maxH2Sections = 2) {
+  const lines = markdown.split("\n");
+  let count = 0;
+  let inFence = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim().startsWith("```")) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+
+    if (/^##\s/.test(lines[i])) {
+      count++;
+      if (count > maxH2Sections) {
+        return lines.slice(0, i).join("\n");
+      }
+    }
+  }
+
+  return markdown;
 }
 
 export function getAllLessons() {

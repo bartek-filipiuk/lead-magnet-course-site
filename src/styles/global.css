@@ -840,6 +840,105 @@ li {
   }
 }
 
+/* ─── Email Gate ─── */
+
+.gated {
+  position: relative;
+  overflow: hidden;
+}
+
+.gated::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(transparent, var(--bg));
+  pointer-events: none;
+}
+
+.gate-overlay {
+  margin-top: -40px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.gate-box {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.gate-box h3 {
+  font-family: var(--font-heading);
+  margin-bottom: 0.5rem;
+}
+
+.gate-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 1rem;
+}
+
+.gate-form {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.gate-form input {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-family: var(--font-body);
+  background: var(--bg);
+}
+
+.gate-form button {
+  padding: 0.6rem 1.2rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.gate-form button:hover {
+  background: var(--accent-hover);
+}
+
+.gate-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.gate-error {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.gate-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.2rem 0;
+}
+
+.gate-signup-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
 /* ─── Print ─── */
 
 @media print {

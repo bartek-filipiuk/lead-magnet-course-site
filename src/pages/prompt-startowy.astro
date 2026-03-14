@@ -1,18 +1,30 @@
 ---
+export const prerender = false;
+
 import fs from "node:fs";
 import path from "node:path";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import EmailGate from "../components/EmailGate.astro";
+
+const authenticated = Astro.locals.authenticated;
 
 const promptsDir = path.resolve(process.cwd(), "content/prompts");
 const bootstrapPrompt = fs.readFileSync(path.join(promptsDir, "BOOTSTRAP_PROMPT.md"), "utf-8").trim();
-const agentPrompt = fs.readFileSync(path.join(promptsDir, "AGENT_INIT_PROMPT.md"), "utf-8").trim();
-const artifactChecklist = fs.readFileSync(path.join(promptsDir, "ARTIFACT_CHECKLIST.md"), "utf-8").trim();
-const verificationPrompt = fs.readFileSync(path.join(promptsDir, "VERIFICATION_PROMPT.md"), "utf-8").trim();
 
 const courseUrl = "https://vibe.devince.dev";
 const discordUrl = "https://discord.gg/mSSqkQWe4D";
 const youtubeUrl = "https://youtube.com/@devince";
 const bootstrapPromptUrl = `${courseUrl}/prompts/BOOTSTRAP_PROMPT.md`;
+
+let agentPrompt = "";
+let artifactChecklist = "";
+let verificationPrompt = "";
+
+if (authenticated) {
+  agentPrompt = fs.readFileSync(path.join(promptsDir, "AGENT_INIT_PROMPT.md"), "utf-8").trim();
+  artifactChecklist = fs.readFileSync(path.join(promptsDir, "ARTIFACT_CHECKLIST.md"), "utf-8").trim();
+  verificationPrompt = fs.readFileSync(path.join(promptsDir, "VERIFICATION_PROMPT.md"), "utf-8").trim();
+}
 
 const files = [
   {
@@ -21,6 +33,7 @@ const files = [
     label: "Bootstrap Prompt",
     description: "Jednolinijkowa instrukcja startowa: agent po wklejeniu linku sam tworzy wymagane pliki w katalogu wskazanym przez użytkownika.",
     content: bootstrapPrompt,
+    alwaysVisible: true,
   },
   {
     id: "agent-init",
@@ -28,6 +41,7 @@ const files = [
     label: "Prompt startowy",
     description: "Prowadzi agenta przez 5 faz: od pomysłu przez TDD do deployu. Zawiera checkpointy GATE, które blokują przejście do następnej fazy, jeśli brakuje artefaktów.",
     content: agentPrompt,
+    alwaysVisible: false,
   },
   {
     id: "artifact-checklist",
@@ -35,6 +49,7 @@ const files = [
     label: "Artifact Checklist",
     description: "Referencyjny dokument z pełną listą wymaganych plików dla każdej fazy i kryteriami akceptacji. Agent odwołuje się do niego przy każdym GATE.",
     content: artifactChecklist,
+    alwaysVisible: false,
   },
   {
     id: "verification-prompt",
@@ -42,8 +57,11 @@ const files = [
     label: "Verification Prompt",
     description: "Niezależny prompt audytowy. Wklej go do dowolnego agenta w dowolnym momencie, żeby sprawdzić stan projektu i dostać raport, czego brakuje.",
     content: verificationPrompt,
+    alwaysVisible: false,
   },
 ];
+
+const visibleFiles = authenticated ? files : files.filter((f) => f.alwaysVisible);
 ---
 
 <BaseLayout
@@ -63,65 +81,67 @@ const files = [
     </div>
   </section>
 
-  <section class="info-card">
-    <h2>Jak to odpalić</h2>
-    <ol class="setup-steps">
-      <li>
-        <strong>Stwórz pusty katalog</strong> na swój projekt (np. <code>my-app/</code>).
-      </li>
-      <li>
-        <strong>Wklej do agenta jedną linijkę</strong> (link do instrukcji bootstrap):
-        <pre class="prompt-pre prompt-pre--short"><code>{`Przeczytaj instrukcję z ${bootstrapPromptUrl} i wykonaj ją krok po kroku.`}</code></pre>
-        <div class="download-cta">
-          <a class="download-btn" href="/prompts/BOOTSTRAP_PROMPT.md" target="_blank" rel="noreferrer">Otwórz BOOTSTRAP_PROMPT.md</a>
-        </div>
-      </li>
-      <li>
-        <strong>Wskaż agentowi katalog docelowy</strong>. Agent utworzy tam pliki:
-        <div class="file-list">
-          <code>AGENT_INIT_PROMPT.md</code> — główny prompt
-          <code>ARTIFACT_CHECKLIST.md</code> — lista artefaktów (agent czyta przy GATE)
-          <code>VERIFICATION_PROMPT.md</code> — niezależny audyt (opcjonalnie, w dowolnym momencie)
-        </div>
-      </li>
-      <li>
-        <strong>Gdy pliki będą gotowe</strong>, otwórz agenta AI (Claude Code, Cursor, Windsurf) w tym katalogu i wklej:
-        <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj AGENT_INIT_PROMPT.md i ARTIFACT_CHECKLIST.md. Zacznij.</code></pre>
-      </li>
-      <li>
-        <strong>Podaj pomysł</strong> jednym zdaniem i pozwól agentowi prowadzić Cię przez fazy.
-      </li>
-    </ol>
-  </section>
-
-  <section class="prompt-grid">
-    <article class="info-card">
-      <h2>Co dobrze przygotować przed startem</h2>
-      <ul>
-        <li>konto na GitHubie (łatwiej zapisywać progres),</li>
-        <li>90 minut spokojnego czasu na pierwszy przebieg,</li>
+  {authenticated ? (
+    <section class="info-card">
+      <h2>Jak to odpalić</h2>
+      <ol class="setup-steps">
         <li>
-          opcjonalnie: VPS, jeśli chcesz od razu wystawić apkę publicznie po
-          ukończeniu.
+          <strong>Stwórz pusty katalog</strong> na swój projekt (np. <code>my-app/</code>).
         </li>
-      </ul>
-    </article>
+        <li>
+          <strong>Wklej do agenta jedną linijkę</strong> (link do instrukcji bootstrap):
+          <pre class="prompt-pre prompt-pre--short"><code>{`Przeczytaj instrukcję z ${bootstrapPromptUrl} i wykonaj ją krok po kroku.`}</code></pre>
+          <div class="download-cta">
+            <a class="download-btn" href="/prompts/BOOTSTRAP_PROMPT.md" target="_blank" rel="noreferrer">Otwórz BOOTSTRAP_PROMPT.md</a>
+          </div>
+        </li>
+        <li>
+          <strong>Wskaż agentowi katalog docelowy</strong>. Agent utworzy tam pliki:
+          <div class="file-list">
+            <code>AGENT_INIT_PROMPT.md</code> — główny prompt
+            <code>ARTIFACT_CHECKLIST.md</code> — lista artefaktów (agent czyta przy GATE)
+            <code>VERIFICATION_PROMPT.md</code> — niezależny audyt (opcjonalnie, w dowolnym momencie)
+          </div>
+        </li>
+        <li>
+          <strong>Gdy pliki będą gotowe</strong>, otwórz agenta AI (Claude Code, Cursor, Windsurf) w tym katalogu i wklej:
+          <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj AGENT_INIT_PROMPT.md i ARTIFACT_CHECKLIST.md. Zacznij.</code></pre>
+        </li>
+        <li>
+          <strong>Podaj pomysł</strong> jednym zdaniem i pozwól agentowi prowadzić Cię przez fazy.
+        </li>
+      </ol>
+    </section>
 
-    <article class="info-card">
-      <h2>Gdzie ludzie najczęściej się wykładają</h2>
-      <ul>
-        <li>proszą agenta o &bdquo;zrób wszystko naraz&rdquo; zamiast task po tasku,</li>
-        <li>pomijają testy i wracają do bugów po kilku dniach,</li>
-        <li>nie aktualizują dokumentacji po stage'u,</li>
-        <li>nie robią commitów po domkniętym kroku.</li>
-      </ul>
-      <p class="muted">
-        Jeśli utkniesz: wrzuć kontekst i błąd na Discorda.
-      </p>
-    </article>
-  </section>
+    <section class="prompt-grid">
+      <article class="info-card">
+        <h2>Co dobrze przygotować przed startem</h2>
+        <ul>
+          <li>konto na GitHubie (łatwiej zapisywać progres),</li>
+          <li>90 minut spokojnego czasu na pierwszy przebieg,</li>
+          <li>
+            opcjonalnie: VPS, jeśli chcesz od razu wystawić apkę publicznie po
+            ukończeniu.
+          </li>
+        </ul>
+      </article>
 
-  {files.map((file) => (
+      <article class="info-card">
+        <h2>Gdzie ludzie najczęściej się wykładają</h2>
+        <ul>
+          <li>proszą agenta o &bdquo;zrób wszystko naraz&rdquo; zamiast task po tasku,</li>
+          <li>pomijają testy i wracają do bugów po kilku dniach,</li>
+          <li>nie aktualizują dokumentacji po stage'u,</li>
+          <li>nie robią commitów po domkniętym kroku.</li>
+        </ul>
+        <p class="muted">
+          Jeśli utkniesz: wrzuć kontekst i błąd na Discorda.
+        </p>
+      </article>
+    </section>
+  ) : null}
+
+  {visibleFiles.map((file) => (
     <section class="info-card prompt-file-section" id={file.id}>
       <div class="prompt-file-header">
         <div>
@@ -142,6 +162,8 @@ const files = [
       <pre class="prompt-pre" id={`content-${file.id}`}><code>{file.content}</code></pre>
     </section>
   ))}
+
+  {!authenticated && <EmailGate />}
 </BaseLayout>
 
 <script>
@@ -164,7 +186,6 @@ const files = [
           }, 2000);
         }
       } catch {
-        // Fallback for older browsers
         const textarea = document.createElement("textarea");
         textarea.value = codeEl.textContent || "";
         textarea.style.position = "fixed";

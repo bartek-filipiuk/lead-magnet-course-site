@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "node dist/server/entry.mjs",
+    "start": "node dist/server/entry.mjs",
     "pdf": "node ./scripts/export-pdf.mjs"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.5",
     "astro": "^5.4.0",
     "marked": "^15.0.7"
   },
