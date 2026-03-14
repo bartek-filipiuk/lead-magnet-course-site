@@ -14,6 +14,6 @@ COPY --from=builder /app/content ./content
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 EXPOSE 80
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD wget -qO- http://localhost/prompts/BOOTSTRAP_PROMPT.md || exit 1
+HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:80/ || exit 1
 CMD ["node", "dist/server/entry.mjs"]
