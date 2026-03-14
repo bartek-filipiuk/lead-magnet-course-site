@@ -8,60 +8,46 @@ import EmailGate from "../components/EmailGate.astro";
 
 const authenticated = Astro.locals.authenticated;
 
-const promptsDir = path.resolve(process.cwd(), "content/prompts");
-const bootstrapPrompt = fs.readFileSync(path.join(promptsDir, "BOOTSTRAP_PROMPT.md"), "utf-8").trim();
-
 const courseUrl = "https://vibe.devince.dev";
 const discordUrl = "https://discord.gg/mSSqkQWe4D";
 const youtubeUrl = "https://youtube.com/@devince";
 const bootstrapPromptUrl = `${courseUrl}/prompts/BOOTSTRAP_PROMPT.md`;
 
-let agentPrompt = "";
-let artifactChecklist = "";
-let verificationPrompt = "";
+let files: { id: string; filename: string; label: string; description: string; content: string }[] = [];
 
 if (authenticated) {
-  agentPrompt = fs.readFileSync(path.join(promptsDir, "AGENT_INIT_PROMPT.md"), "utf-8").trim();
-  artifactChecklist = fs.readFileSync(path.join(promptsDir, "ARTIFACT_CHECKLIST.md"), "utf-8").trim();
-  verificationPrompt = fs.readFileSync(path.join(promptsDir, "VERIFICATION_PROMPT.md"), "utf-8").trim();
+  const promptsDir = path.resolve(process.cwd(), "content/prompts");
+  files = [
+    {
+      id: "bootstrap-prompt",
+      filename: "BOOTSTRAP_PROMPT.md",
+      label: "Bootstrap Prompt",
+      description: "Jednolinijkowa instrukcja startowa: agent po wklejeniu linku sam tworzy wymagane pliki w katalogu wskazanym przez użytkownika.",
+      content: fs.readFileSync(path.join(promptsDir, "BOOTSTRAP_PROMPT.md"), "utf-8").trim(),
+    },
+    {
+      id: "agent-init",
+      filename: "AGENT_INIT_PROMPT.md",
+      label: "Prompt startowy",
+      description: "Prowadzi agenta przez 5 faz: od pomysłu przez TDD do deployu. Zawiera checkpointy GATE, które blokują przejście do następnej fazy, jeśli brakuje artefaktów.",
+      content: fs.readFileSync(path.join(promptsDir, "AGENT_INIT_PROMPT.md"), "utf-8").trim(),
+    },
+    {
+      id: "artifact-checklist",
+      filename: "ARTIFACT_CHECKLIST.md",
+      label: "Artifact Checklist",
+      description: "Referencyjny dokument z pełną listą wymaganych plików dla każdej fazy i kryteriami akceptacji. Agent odwołuje się do niego przy każdym GATE.",
+      content: fs.readFileSync(path.join(promptsDir, "ARTIFACT_CHECKLIST.md"), "utf-8").trim(),
+    },
+    {
+      id: "verification-prompt",
+      filename: "VERIFICATION_PROMPT.md",
+      label: "Verification Prompt",
+      description: "Niezależny prompt audytowy. Wklej go do dowolnego agenta w dowolnym momencie, żeby sprawdzić stan projektu i dostać raport, czego brakuje.",
+      content: fs.readFileSync(path.join(promptsDir, "VERIFICATION_PROMPT.md"), "utf-8").trim(),
+    },
+  ];
 }
-
-const files = [
-  {
-    id: "bootstrap-prompt",
-    filename: "BOOTSTRAP_PROMPT.md",
-    label: "Bootstrap Prompt",
-    description: "Jednolinijkowa instrukcja startowa: agent po wklejeniu linku sam tworzy wymagane pliki w katalogu wskazanym przez użytkownika.",
-    content: bootstrapPrompt,
-    alwaysVisible: true,
-  },
-  {
-    id: "agent-init",
-    filename: "AGENT_INIT_PROMPT.md",
-    label: "Prompt startowy",
-    description: "Prowadzi agenta przez 5 faz: od pomysłu przez TDD do deployu. Zawiera checkpointy GATE, które blokują przejście do następnej fazy, jeśli brakuje artefaktów.",
-    content: agentPrompt,
-    alwaysVisible: false,
-  },
-  {
-    id: "artifact-checklist",
-    filename: "ARTIFACT_CHECKLIST.md",
-    label: "Artifact Checklist",
-    description: "Referencyjny dokument z pełną listą wymaganych plików dla każdej fazy i kryteriami akceptacji. Agent odwołuje się do niego przy każdym GATE.",
-    content: artifactChecklist,
-    alwaysVisible: false,
-  },
-  {
-    id: "verification-prompt",
-    filename: "VERIFICATION_PROMPT.md",
-    label: "Verification Prompt",
-    description: "Niezależny prompt audytowy. Wklej go do dowolnego agenta w dowolnym momencie, żeby sprawdzić stan projektu i dostać raport, czego brakuje.",
-    content: verificationPrompt,
-    alwaysVisible: false,
-  },
-];
-
-const visibleFiles = authenticated ? files : files.filter((f) => f.alwaysVisible);
 ---
 
 <BaseLayout
@@ -141,7 +127,7 @@ const visibleFiles = authenticated ? files : files.filter((f) => f.alwaysVisible
     </section>
   ) : null}
 
-  {visibleFiles.map((file) => (
+  {files.map((file) => (
     <section class="info-card prompt-file-section" id={file.id}>
       <div class="prompt-file-header">
         <div>
