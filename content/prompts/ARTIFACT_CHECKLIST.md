@@ -16,7 +16,7 @@ Referencyjny dokument artefaktów wymaganych w każdej fazie projektu. AI odwoł
 |------|----------------|---------------------|
 | `TECH_STACK.md` | Technologie z uzasadnieniem, Rozważone alternatywy, Frontend Styling (framework CSS / component library z uzasadnieniem powiązanym z Look & Feel z PRD - lub pominięte jeśli brak frontendu) | User zatwierdził |
 | `STACK_GUIDELINES.md` | Must-have na start, Dobrze dodać później, Otwarte decyzje | Wygenerowany na bazie TECH_STACK.md |
-| `HANDOFF_STAGES_PLAN.md` | Stage 1..N z checkboxami `- [ ]`, Stage 1 = Minimalna działająca aplikacja, Ostatni Stage = Dopracowanie i finalizacja, Każdy Stage ma sekcję **Security** (MANDATORY), Każdy Stage ma sekcję **Docs & Self-check** (MANDATORY) | User zatwierdził, coverage check z PRD passed |
+| `HANDOFF_STAGES_PLAN.md` | Stage 1..N z checkboxami `- [ ]`, Stage 1 = Minimalna działająca aplikacja, Ostatni Stage = Dopracowanie i finalizacja, Każdy Stage ma `**User Stories:**` (referencje do US z PRD), Każdy Stage ma sekcję **Security** (MANDATORY), Każdy Stage ma sekcję **Docs** (MANDATORY), Każdy Stage ma sekcję **Stage Completion** (MANDATORY), Sekcja "Coverage Check vs PRD" na końcu pliku | User zatwierdził, coverage check z PRD passed |
 
 ## Po Phase 3 Stage 1 (Bootstrap)
 
@@ -38,7 +38,8 @@ Referencyjny dokument artefaktów wymaganych w każdej fazie projektu. AI odwoł
 | `docs/README.md` | Quick Start i Struktura aktualne (jeśli zmiany wymagają) |
 | git | Commit z opisem `Stage N done` lub adekwatnym komunikatem |
 | Security task | Wykonany i oznaczony `[x]` w stage |
-| Docs & Self-check task | Wykonany i oznaczony `[x]` w stage |
+| Docs task | Wykonany i oznaczony `[x]` w stage |
+| Stage Completion task | Wykonany: self-checki + WSZYSTKIE checkboxy stage → `[x]` |
 
 ## Po Phase 4
 

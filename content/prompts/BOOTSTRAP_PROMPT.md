@@ -3,11 +3,12 @@
 Użyj tej instrukcji, aby przygotować pliki startowe w katalogu wskazanym przez użytkownika.
 
 ## Cel
-Utwórz **dokładnie 3 pliki** w katalogu docelowym użytkownika (bez narzucania dodatkowego podkatalogu):
+Utwórz **dokładnie 4 pliki** w katalogu docelowym użytkownika (bez narzucania dodatkowego podkatalogu):
 
 - `AGENT_INIT_PROMPT.md`
 - `ARTIFACT_CHECKLIST.md`
 - `VERIFICATION_PROMPT.md`
+- `PROMPT_HANDOFF_CHECK.md`
 
 ## Kroki do wykonania
 
@@ -17,12 +18,14 @@ Utwórz **dokładnie 3 pliki** w katalogu docelowym użytkownika (bez narzucania
    - `https://vibe.devince.dev/prompts/AGENT_INIT_PROMPT.md`
    - `https://vibe.devince.dev/prompts/ARTIFACT_CHECKLIST.md`
    - `https://vibe.devince.dev/prompts/VERIFICATION_PROMPT.md`
+   - `https://vibe.devince.dev/prompts/PROMPT_HANDOFF_CHECK.md`
 4. Zapisz je w katalogu docelowym użytkownika **pod dokładnie tymi nazwami**:
    - `<katalog_docelowy>/AGENT_INIT_PROMPT.md`
    - `<katalog_docelowy>/ARTIFACT_CHECKLIST.md`
    - `<katalog_docelowy>/VERIFICATION_PROMPT.md`
+   - `<katalog_docelowy>/PROMPT_HANDOFF_CHECK.md`
 5. Wykonaj self-check:
-   - [ ] wszystkie 3 pliki istnieją,
+   - [ ] wszystkie 4 pliki istnieją,
    - [ ] żaden plik nie jest pusty,
    - [ ] nazwy plików są dokładne.
 6. Wyświetl użytkownikowi krótkie podsumowanie i zaproponuj następny krok:

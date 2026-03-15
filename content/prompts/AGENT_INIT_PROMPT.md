@@ -91,6 +91,7 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
 ```markdown
 ## Stage N: [Nazwa Feature]
 **Cel:** [Jedno zdanie]
+**User Stories:** [US-X, US-Y — referencje do User Stories z PRD.md, które ten stage realizuje]
 
 ### Taski:
 - [ ] T1: [Opis tasku] (test → kod → verify)
@@ -101,21 +102,34 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
 - [ ] [Konkretny task security dla scope tego stage'u]
 - [ ] [Test security: negative case]
 
-### Docs & Self-check (MANDATORY w każdym stage):
+### Docs (MANDATORY w każdym stage):
+- [ ] Update docs/CHANGELOG.md
 - [ ] Update docs/API.md (jeśli nowe/zmienione endpoints)
-- [ ] Update docs/CHANGELOG.md (zawsze)
-- [ ] Self-check: wszystkie checkboxy stage → [x]
-- [ ] Self-check: zgodność scope z PRD
-- [ ] Self-check: brak hardcoded secrets
+- [ ] Update docs/README.md (jeśli zmieniła się struktura, Quick Start lub zależności)
+
+### Stage Completion (MANDATORY — wykonaj NA KOŃCU stage'u):
+- [ ] Self-check: zakres stage zgodny z PRD (wymienione User Stories pokryte)
+- [ ] Self-check: brak hardcoded secrets w kodzie
+- [ ] Self-check: testy zielone (funkcjonalne + security)
+- [ ] Zaktualizuj HANDOFF: WSZYSTKIE checkboxy tego stage → [x]
 ```
 
    Wymagania strukturalne:
    - **Stage 1:** Minimalna działająca aplikacja (scaffolding projektu, hello-world backendowy i frontendowy gadające ze sobą, z podstawową integracją biblioteki testowej, Docker init + minimalny baseline security).
    - **Stage 2 do N:** Kolejne kompletne ficzery z PRD (od backendu i logiki po wyrenderowany Front-End).
    - Ostatni Stage to szlify (Dopracowanie i finalizacja).
-   - **Każdy Stage MUSI** mieć sekcję Security i sekcję Docs & Self-check (zgodnie z template powyżej).
+   - **Każdy Stage MUSI** mieć sekcję Security, sekcję Docs i sekcję Stage Completion (zgodnie z template powyżej).
    - **Definition of Done dla taska/stage:** testy zielone + działający zakres + security checklist zaliczony + docs zaktualizowane.
 6. Po wygenerowaniu `HANDOFF_STAGES_PLAN.md` wykonaj coverage check: zweryfikuj, czy wszystkie wymagania z PRD i kluczowe decyzje z TECH_STACK mają odzwierciedlenie w taskach/stage'ach; jeśli są luki, uzupełnij plan.
+   Na końcu pliku HANDOFF_STAGES_PLAN.md DODAJ sekcję "Coverage Check vs PRD" — tabelkę mapującą każdy User Story z PRD na Stage(s), które go realizują:
+
+   | User Story | Stage(s) |
+   |-----------|----------|
+   | US-1: [nazwa] | Stage X |
+   | US-2: [nazwa] | Stage Y + Stage Z |
+
+   Ta tabelka służy jako weryfikacja kompletności planu i musi być uzupełniona przed GATE 2.
+6b. Uruchom check struktury HANDOFF: przeczytaj `PROMPT_HANDOFF_CHECK.md` i wykonaj sprawdzenie wygenerowanego `HANDOFF_STAGES_PLAN.md`. Jeśli wykryje braki — napraw ZANIM zapytasz usera o zatwierdzenie.
 7. Zapytaj użytkownika: *"Czy plan jest dla Ciebie jasny i czy możemy przejść do fazy kodowania opartej o testy (Phase 3)?"* Przypomnij, że bez kompletu (`PRD.md`, `TECH_STACK.md`, `HANDOFF_STAGES_PLAN.md`) nie zaczynasz implementacji.
 
 ### 🚧 GATE 2 - Weryfikacja przed Phase 3
@@ -126,7 +140,10 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
    - [ ] Ma Stage 1: Minimalna działająca aplikacja
    - [ ] Każdy Stage ma checkboxy `- [ ]`
    - [ ] Każdy Stage ma sekcję Security (MANDATORY)
-   - [ ] Każdy Stage ma sekcję Docs & Self-check (MANDATORY)
+   - [ ] Każdy Stage ma sekcję Docs (MANDATORY)
+   - [ ] Każdy Stage ma sekcję Stage Completion (MANDATORY)
+   - [ ] Każdy Stage ma pole `**User Stories:**` z referencjami do PRD
+   - [ ] Na końcu pliku jest sekcja "Coverage Check vs PRD"
    - [ ] Ostatni Stage to Dopracowanie i finalizacja
 4. Otwórz `TECH_STACK.md` i zweryfikuj: zawiera uzasadnienie wyboru technologii.
 5. Pokaż wynik: **"GATE 2: 4/4 plików ✓, plan ma N stage'ów, security/docs tasks ✓"**
@@ -157,9 +174,10 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 2.
    a. **TEST (Red):** napisz test funkcjonalny + security test, uruchom, potwierdź FAIL
    b. **UI CHECK (jeśli task dotyczy frontendu):** przed implementacją otwórz PRD sekcję "Look & Feel" i TECH_STACK sekcję "Frontend Styling" - zweryfikuj że implementujesz zgodnie z ustalonymi decyzjami wizualnymi
    c. **IMPLEMENT (Green):** minimalny kod żeby test przeszedł, z wymaganymi zabezpieczeniami
-   d. **DOCS:** update `docs/API.md` (jeśli endpoint), `docs/CHANGELOG.md` (zawsze)
+   d. **DOCS:** update `docs/CHANGELOG.md` (zawsze), `docs/API.md` (jeśli endpoint), `docs/README.md` (jeśli zmieniła się struktura/Quick Start)
    e. **CHECKBOX:** zmień `- [ ]` na `- [x]` w `HANDOFF_STAGES_PLAN.md`
-   f. Po WSZYSTKICH taskach stage: uruchom **STAGE GATE** → commit
+   f. Po WSZYSTKICH taskach stage: wykonaj sekcję "Stage Completion" z HANDOFF (self-checki + oznacz WSZYSTKIE checkboxy stage [x])
+   g. Uruchom **STAGE GATE** → commit
 
 5. Sprawdź, czy można uprościć zrobiony działający kod (Refactor) i poproś użytkownika by przeklikał happy path oraz podstawowy negative path w przeglądarce przed zapisaniem.
 
@@ -176,8 +194,11 @@ Po zakończeniu Stage N, ZANIM przejdziesz dalej:
    - Jeśli jakiś `- [ ]` pozostał → **BLOCKER:** zakończ task przed kontynuacją.
 4. Otwórz `docs/CHANGELOG.md`: czy jest wpis dla Stage N?
 5. Jeśli Stage dodał/zmienił endpoints: otwórz `docs/API.md` i sprawdź czy jest aktualne.
-6. Pokaż: **"STAGE N GATE: checkboxy X/Y ✓, docs updated ✓, git ✓"**
-7. Przypomnij: "Skomituj: `git commit -m 'Stage N done'`"
+6. Otwórz `HANDOFF_STAGES_PLAN.md`: czy sekcja "Stage Completion" ma WSZYSTKIE checkboxy `[x]`?
+   - Jeśli nie → **BLOCKER:** wykonaj brakujące self-checki i oznacz.
+7. Sprawdź: czy `docs/API.md` istnieje i nie jest pustym placeholderem (jeśli stage miał endpointy)?
+8. Pokaż: **"STAGE N GATE: checkboxy X/Y ✓, docs updated ✓, git ✓"**
+9. Przypomnij: "Skomituj: `git commit -m 'Stage N done'`"
 
 Jeśli wszystko OK → przejdź do następnego Stage lub Phase 4.
 Jeśli BLOCKER → napraw i powtórz STAGE GATE.
