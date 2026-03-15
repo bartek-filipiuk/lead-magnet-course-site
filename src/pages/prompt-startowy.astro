@@ -46,18 +46,25 @@ if (authenticated) {
       description: "Niezależny prompt audytowy. Wklej go do dowolnego agenta w dowolnym momencie, żeby sprawdzić stan projektu i dostać raport, czego brakuje.",
       content: fs.readFileSync(path.join(promptsDir, "VERIFICATION_PROMPT.md"), "utf-8").trim(),
     },
+    {
+      id: "handoff-check",
+      filename: "PROMPT_HANDOFF_CHECK.md",
+      label: "Handoff Check",
+      description: "Szybki check struktury HANDOFF_STAGES_PLAN.md. Weryfikuje czy każdy stage ma wymagane sekcje (Security, Docs, Stage Completion, User Stories) i czy Coverage Check pokrywa wszystkie User Stories z PRD.",
+      content: fs.readFileSync(path.join(promptsDir, "PROMPT_HANDOFF_CHECK.md"), "utf-8").trim(),
+    },
   ];
 }
 ---
 
 <BaseLayout
   title="Prompt startowy: AGENT_INIT_PROMPT"
-  description="3 pliki markdown, które prowadzą agenta AI przez cały proces budowania apki — od pomysłu do deployu."
+  description="4 pliki markdown, które prowadzą agenta AI przez cały proces budowania apki — od pomysłu do deployu."
 >
   <section class="hero prompt-hero">
     <h1>Pliki startowe (to jest sedno całego flow)</h1>
     <p class="muted">
-      3 pliki markdown, które prowadzą agenta AI przez cały proces: od pomysłu
+      4 pliki markdown, które prowadzą agenta AI przez cały proces: od pomysłu
       i PRD, przez plan i kodowanie z checkpointami GATE, aż do deployu.
     </p>
     <div class="inline-links">
@@ -87,6 +94,7 @@ if (authenticated) {
             <code>AGENT_INIT_PROMPT.md</code> — główny prompt
             <code>ARTIFACT_CHECKLIST.md</code> — lista artefaktów (agent czyta przy GATE)
             <code>VERIFICATION_PROMPT.md</code> — niezależny audyt (opcjonalnie, w dowolnym momencie)
+            <code>PROMPT_HANDOFF_CHECK.md</code> — check struktury HANDOFF (agent uruchamia w GATE 2)
           </div>
         </li>
         <li>
