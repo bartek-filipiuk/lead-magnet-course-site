@@ -1,0 +1,430 @@
+---
+export const prerender = false;
+
+import fs from "node:fs";
+import path from "node:path";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const promptsDir = path.resolve(process.cwd(), "content/prompts");
+
+const scoreContent = fs.readFileSync(path.join(promptsDir, "PROMPT_SCORE.md"), "utf-8").trim();
+const autofixContent = fs.readFileSync(path.join(promptsDir, "PROMPT_AUTOFIX.md"), "utf-8").trim();
+---
+
+<BaseLayout
+  title="Audyt projektu — PROMPT_SCORE + PROMPT_AUTOFIX"
+  description="Dwa narzędzia do sprawdzenia stanu projektu AI — wklej prompt do agenta i dostaniesz raport lub automatyczne naprawy."
+>
+  <section class="hero prompt-hero">
+    <h1>Audyt projektu</h1>
+    <p class="muted">
+      Dwa narzędzia do sprawdzenia stanu projektu — wklej prompt do agenta AI
+      i dostaniesz raport (SCORE) lub automatyczne naprawy (AUTOFIX).
+    </p>
+  </section>
+
+  <!-- Porownanie narzedzi -->
+  <section class="info-card">
+    <h2>SCORE vs AUTOFIX — kiedy czego uzyc</h2>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>PROMPT_SCORE</th>
+            <th>PROMPT_AUTOFIX</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="compare-label">Co robi</td>
+            <td>Read-only raport z wynikiem 0-100</td>
+            <td>Autonomiczne naprawy commit po commicie</td>
+          </tr>
+          <tr>
+            <td class="compare-label">Czas</td>
+            <td>1-3 min</td>
+            <td>5-20 min</td>
+          </tr>
+          <tr>
+            <td class="compare-label">Modyfikuje pliki</td>
+            <td>Nie</td>
+            <td>Tak (kazdy fix = osobny commit)</td>
+          </tr>
+          <tr>
+            <td class="compare-label">Kiedy uzyc</td>
+            <td>Szybki check — chcesz wiedziec gdzie stoisz</td>
+            <td>Pelna naprawa — chcesz podniesc score</td>
+          </tr>
+          <tr>
+            <td class="compare-label">Mozna cofnac</td>
+            <td>Nic do cofania (nic nie zmienia)</td>
+            <td>Tak — <code>git revert</code> lub <code>git reset</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PROMPT_SCORE -->
+  <section class="info-card prompt-file-section" id="prompt-score">
+    <div class="prompt-file-header">
+      <div>
+        <h2>PROMPT_SCORE.md</h2>
+        <p class="muted">
+          Read-only audyt. Oblicza Project Health Score (0-100) w 4 wymiarach:
+          artefakty, testy, security, docs & process. Nic nie zmienia w projekcie.
+        </p>
+      </div>
+      <div class="btn-group">
+        <button
+          class="copy-btn"
+          data-target="prompt-score"
+          aria-label="Skopiuj PROMPT_SCORE.md"
+        >
+          <span class="copy-btn__icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </span>
+          <span class="copy-btn__label">Kopiuj</span>
+        </button>
+        <a class="download-btn" href="/prompts/PROMPT_SCORE.md" target="_blank" rel="noreferrer">Pobierz</a>
+      </div>
+    </div>
+
+    <h3>Przykladowy raport</h3>
+    <pre class="prompt-pre mockup-pre"><code>{`═══════════════════════════════════════════════════
+  PROJECT HEALTH SCORE
+  Data: 2026-03-15
+  Projekt: my-saas-app
+  Faza: Phase 3 Stage 2
+═══════════════════════════════════════════════════
+
+  SCORE: 62 / 100
+
+  Artefakty:      80 / 100  ████████░░
+  Testy:          55 / 100  █████░░░░░
+  Security:       45 / 100  ████░░░░░░
+  Docs & Process: 68 / 100  ██████░░░░
+
+  ─── Top 5 do poprawy ───
+
+  #  Problem                         Wpływ    Wymiar
+  1. Brak docs/SECURITY.md           +6 pkt   Security
+  2. Brak testow security            +9 pkt   Testy
+  3. HANDOFF checkboxy: 8/20 (40%)   +4 pkt   Docs
+  4. Brak rate limiting              +3 pkt   Security
+  5. docs/API.md — placeholder       +4 pkt   Docs
+
+  Napraw te 5 problemow → score wzrosnie do ~88.
+═══════════════════════════════════════════════════`}</code></pre>
+
+    <details class="prompt-details">
+      <summary>Pokaz pelna tresc prompta</summary>
+      <pre class="prompt-pre" id="content-prompt-score"><code>{scoreContent}</code></pre>
+    </details>
+  </section>
+
+  <!-- PROMPT_AUTOFIX -->
+  <section class="info-card prompt-file-section" id="prompt-autofix">
+    <div class="prompt-file-header">
+      <div>
+        <h2>PROMPT_AUTOFIX.md</h2>
+        <p class="muted">
+          Autonomiczny fixer. Oblicza score, znajduje najslabszy punkt i naprawia go — commit po commicie.
+          Petla: modify &rarr; evaluate &rarr; keep/revert &rarr; repeat. Kazdy fix to osobny commit.
+        </p>
+      </div>
+      <div class="btn-group">
+        <button
+          class="copy-btn"
+          data-target="prompt-autofix"
+          aria-label="Skopiuj PROMPT_AUTOFIX.md"
+        >
+          <span class="copy-btn__icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </span>
+          <span class="copy-btn__label">Kopiuj</span>
+        </button>
+        <a class="download-btn" href="/prompts/PROMPT_AUTOFIX.md" target="_blank" rel="noreferrer">Pobierz</a>
+      </div>
+    </div>
+
+    <h3>Przykladowy raport koncowy</h3>
+    <pre class="prompt-pre mockup-pre"><code>{`═══════════════════════════════════════════════════
+  AUTOFIX — Raport koncowy
+  Iteracji: 7 / 20
+  Powod: score >= 95
+═══════════════════════════════════════════════════
+
+  SCORE: 62 → 96 / 100  (+34)
+
+  Artefakty:      80 → 100  (Δ +20)
+  Testy:          55 → 90   (Δ +35)
+  Security:       45 → 95   (Δ +50)
+  Docs & Process: 68 → 100  (Δ +32)
+
+  Wykonane fixy:
+  1. ✓ Security — dodano docs/SECURITY.md        | +6  | a1b2c3d
+  2. ✓ Testy — dodano testy security (401, 403)  | +9  | e4f5g6h
+  3. ✓ Security — dodano rate limiting            | +3  | i7j8k9l
+  4. ✓ Docs — uzupelniono docs/API.md             | +4  | m0n1o2p
+  5. ✓ Docs — zaktualizowano HANDOFF checkboxy    | +4  | q3r4s5t
+  6. ✗ Testy — proba smoke testu                  | 0   | cofnieto
+  7. ✓ Testy — dodano smoke test (health + error) | +8  | u6v7w8x
+
+  Pozostale problemy (wymaga interwencji uzytkownika):
+  1. .env wymaga uzupelnienia kluczy API
+
+  Przeglad: git log --oneline
+  Cofnij wszystko: git revert --no-edit HEAD~6..HEAD
+═══════════════════════════════════════════════════`}</code></pre>
+
+    <details class="prompt-details">
+      <summary>Pokaz pelna tresc prompta</summary>
+      <pre class="prompt-pre" id="content-prompt-autofix"><code>{autofixContent}</code></pre>
+    </details>
+  </section>
+
+  <!-- Jak uruchomic -->
+  <section class="info-card">
+    <h2>Jak uruchomic</h2>
+    <p class="muted">Otworz agenta AI (Claude Code, Cursor, Windsurf) w katalogu swojego projektu i wklej:</p>
+
+    <h3>SCORE — szybki odczyt</h3>
+    <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj PROMPT_SCORE.md i oblicz score.</code></pre>
+
+    <h3>AUTOFIX — pelna naprawa</h3>
+    <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj PROMPT_AUTOFIX.md i wykonaj pelna sesje autofix.</code></pre>
+
+    <p class="muted" style="margin-top: 1rem;">
+      Oba prompty wymagaja, zeby w projekcie byly juz pliki planistyczne
+      (<code>PRD.md</code>, <code>TECH_STACK.md</code>, <code>HANDOFF_STAGES_PLAN.md</code>, <code>ARTIFACT_CHECKLIST.md</code>).
+      Jesli ich nie masz — zacznij od <a href="/prompt-startowy/">Promptu startowego</a>.
+    </p>
+  </section>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const targetId = btn.dataset.target;
+      const codeEl = document.querySelector(`#content-${targetId} code`);
+      if (!codeEl) return;
+
+      try {
+        await navigator.clipboard.writeText(codeEl.textContent || "");
+        const label = btn.querySelector(".copy-btn__label");
+        if (label) {
+          const prev = label.textContent;
+          label.textContent = "Skopiowano!";
+          btn.classList.add("copy-btn--success");
+          setTimeout(() => {
+            label.textContent = prev;
+            btn.classList.remove("copy-btn--success");
+          }, 2000);
+        }
+      } catch {
+        const textarea = document.createElement("textarea");
+        textarea.value = codeEl.textContent || "";
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+
+        const label = btn.querySelector(".copy-btn__label");
+        if (label) {
+          const prev = label.textContent;
+          label.textContent = "Skopiowano!";
+          btn.classList.add("copy-btn--success");
+          setTimeout(() => {
+            label.textContent = prev;
+            btn.classList.remove("copy-btn--success");
+          }, 2000);
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .compare-table-wrap {
+    overflow-x: auto;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0.5rem 0 0;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    text-align: left;
+    padding: 0.65rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    font-size: 0.93rem;
+  }
+
+  .compare-table thead th {
+    background: var(--bg-subtle);
+    font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+  }
+
+  .compare-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    background: var(--bg-elevated);
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+  }
+
+  .download-btn:hover {
+    background: var(--accent);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .prompt-file-section {
+    scroll-margin-top: 90px;
+  }
+
+  .prompt-file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .prompt-file-header h2 {
+    margin: 0 0 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+  }
+
+  .prompt-file-header .muted {
+    margin: 0 0 0.8rem;
+    font-size: 0.92rem;
+  }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-elevated);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
+
+  .copy-btn--success {
+    border-color: #16a34a;
+    color: #16a34a;
+    background: #f0fdf4;
+  }
+
+  .copy-btn__icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .mockup-pre {
+    max-height: none;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    background: #0f172a;
+    color: #e2e8f0;
+    border-color: #1e293b;
+  }
+
+  .mockup-pre code {
+    color: #e2e8f0;
+  }
+
+  .prompt-details {
+    margin-top: 0.8rem;
+  }
+
+  .prompt-details summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--accent);
+    padding: 0.4rem 0;
+    user-select: none;
+  }
+
+  .prompt-details summary:hover {
+    text-decoration: underline;
+  }
+
+  .prompt-details .prompt-pre {
+    margin-top: 0.5rem;
+  }
+
+  .prompt-pre--short {
+    max-height: none;
+    margin-top: 0.5rem;
+  }
+
+  h3 {
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  @media (max-width: 720px) {
+    .prompt-file-header {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .btn-group {
+      width: 100%;
+    }
+
+    .compare-table {
+      font-size: 0.85rem;
+    }
+  }
+</style>
