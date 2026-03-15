@@ -19,10 +19,17 @@ Następnie wykonaj pełny audyt:
    - Ile tasków ma `[ ]` (nieukończone)
    - Czy każdy stage ma sekcję/task **Security**?
    - Czy każdy stage ma sekcję/task **Docs & Self-check**?
+   - Czy każdy stage ma pole **User Stories:** (referencje do PRD)?
+   - Czy każdy stage ma sekcję **Stage Completion**?
+   - Czy na końcu pliku jest sekcja "Coverage Check vs PRD"?
 
 4. **Sprawdź kod źródłowy** pod kątem hardcoded secrets:
    - Przeszukaj wszystkie pliki kodu źródłowego i konfiguracji (pomijając `node_modules`, `.git`, `dist`, `build`, `venv`) pod kątem: `API_KEY=`, `PASSWORD=`, `SECRET=`, `TOKEN=` z wartością (nie placeholder)
    - Sprawdź czy `.env` jest w `.gitignore`
+
+4b. **Sprawdź `docs/API.md`:**
+   - Czy plik istnieje?
+   - Czy zawiera opisy endpointów (nie tylko pusty placeholder)?
 
 5. **Sprawdź git:**
    - Czy repo jest zainicjalizowane? (`git status`)
@@ -61,6 +68,9 @@ Następnie wykonaj pełny audyt:
 - Ukończone: **X/Y** tasków (**Z%**)
 - Security tasks: obecne w **N/M** stage'ów
 - Docs & Self-check tasks: obecne w **N/M** stage'ów
+- User Stories w stage'ach: obecne w **N/M** stage'ów
+- Stage Completion sections: obecne w **N/M** stage'ów
+- Coverage Check vs PRD: obecny ✓ / ✗
 - Stages z 100% ukończeniem: **lista**
 
 ### Git
