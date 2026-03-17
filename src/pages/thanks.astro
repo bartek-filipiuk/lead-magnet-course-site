@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Dziękujemy! — Od pomysłu do deploy">
+  <div class="hero">
+    <h1>Dziękujemy za potwierdzenie!</h1>
+    <p>Twój email został zweryfikowany. Hasło do kursu otrzymasz w osobnym mailu.</p>
+    <p class="muted">Sprawdź skrzynkę (i folder spam) — powinno dotrzeć w ciągu kilku minut.</p>
+  </div>
+
+  <div class="gate-overlay" style="margin-top: 0;">
+    <div class="gate-box">
+      <h3>Masz już hasło?</h3>
+      <p>Wpisz je poniżej, żeby odblokować pełny kurs.</p>
+
+      <form id="unlock-form" class="gate-form">
+        <input type="password" name="password" placeholder="Hasło dostępowe" required />
+        <button type="submit">Odblokuj</button>
+      </form>
+      <p class="gate-error" id="gate-error" hidden></p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("unlock-form") as HTMLFormElement | null;
+  const errorEl = document.getElementById("gate-error") as HTMLParagraphElement | null;
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (errorEl) errorEl.hidden = true;
+
+    const password = new FormData(form).get("password") as string;
+    const btn = form.querySelector("button") as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = "Sprawdzam...";
+
+    try {
+      const res = await fetch("/api/unlock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        window.location.href = "/";
+        return;
+      }
+
+      const data = await res.json();
+      if (errorEl) {
+        errorEl.textContent = data.error || "Nieprawidłowe hasło.";
+        errorEl.hidden = false;
+      }
+    } catch {
+      if (errorEl) {
+        errorEl.textContent = "Błąd połączenia. Spróbuj ponownie.";
+        errorEl.hidden = false;
+      }
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Odblokuj";
+    }
+  });
+</script>

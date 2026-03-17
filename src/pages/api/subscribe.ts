@@ -64,7 +64,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    const res = await fetch("https://api.brevo.com/v3/contacts", {
+    const res = await fetch("https://api.brevo.com/v3/contacts/doubleOptinConfirmation", {
       method: "POST",
       headers: {
         "api-key": apiKey,
@@ -73,8 +73,9 @@ export const POST: APIRoute = async ({ request }) => {
       },
       body: JSON.stringify({
         email,
-        listIds: [8],
-        updateEnabled: true,
+        includeListIds: [8],
+        templateId: 1,
+        redirectionUrl: "https://vibe.devince.dev/thanks",
       }),
     });
 
@@ -88,6 +89,13 @@ export const POST: APIRoute = async ({ request }) => {
     const data = await res.json().catch(() => ({}));
 
     if (res.status === 400) {
+      const msg = (data as Record<string, string>).message ?? "";
+      if (msg.includes("already exist")) {
+        return new Response(
+          JSON.stringify({ ok: true }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        );
+      }
       return new Response(
         JSON.stringify({ error: "Podaj poprawny adres email." }),
         { status: 400, headers: { "Content-Type": "application/json" } }
