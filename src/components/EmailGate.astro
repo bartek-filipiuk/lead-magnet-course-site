@@ -13,11 +13,16 @@
     <p class="gate-error" id="gate-error" hidden></p>
 
     <hr class="gate-divider" />
-    <p class="gate-signup-label">Nie masz jeszcze hasła?</p>
-    <div id="brevo-form">
-      <!-- PLACEHOLDER: Wklej tutaj HTML snippet formularza z Brevo dashboardu -->
-    </div>
-    <p class="gate-note">Po zapisie dostaniesz hasło na maila. Bez spamu.</p>
+    <p class="gate-signup-label">Podaj email — wyślemy Ci hasło do kursu</p>
+    <form id="signup-form" class="gate-form">
+      <input type="email" name="email" placeholder="Twój email" required />
+      <button type="submit">Wyślij hasło</button>
+    </form>
+    <p class="gate-error" id="signup-error" hidden></p>
+    <p class="gate-success" id="signup-success" hidden>
+      Sprawdź skrzynkę — hasło jest w drodze!
+    </p>
+    <p class="gate-note">Bez spamu. <a href="/polityka-prywatnosci/" class="gate-privacy-link">Polityka prywatności</a></p>
   </div>
 </div>
 
@@ -59,6 +64,49 @@
     } finally {
       btn.disabled = false;
       btn.textContent = "Odblokuj";
+    }
+  });
+
+  const signupForm = document.getElementById("signup-form") as HTMLFormElement | null;
+  const signupError = document.getElementById("signup-error") as HTMLParagraphElement | null;
+  const signupSuccess = document.getElementById("signup-success") as HTMLParagraphElement | null;
+
+  signupForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (signupError) signupError.hidden = true;
+
+    const email = new FormData(signupForm).get("email") as string;
+    const btn = signupForm.querySelector("button") as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = "Zapisuję...";
+
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        signupForm.hidden = true;
+        if (signupSuccess) signupSuccess.hidden = false;
+        return;
+      }
+
+      if (signupError) {
+        signupError.textContent = data.error || "Coś poszło nie tak. Spróbuj ponownie.";
+        signupError.hidden = false;
+      }
+    } catch {
+      if (signupError) {
+        signupError.textContent = "Błąd połączenia. Spróbuj ponownie.";
+        signupError.hidden = false;
+      }
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Wyślij hasło";
     }
   });
 </script>

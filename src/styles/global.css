@@ -928,6 +928,24 @@ li {
   margin: 0;
 }
 
+.gate-success {
+  color: #16a34a;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.gate-privacy-link {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.gate-privacy-link:hover {
+  color: var(--accent);
+}
+
 .gate-divider {
   border: 0;
   border-top: 1px solid var(--border);
