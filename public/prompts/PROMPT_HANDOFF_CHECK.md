@@ -33,7 +33,37 @@ Dla KAŻDEGO stage'a sprawdź:
 - Sprawdź: czy KAŻDY User Story z PRD pojawia się w co najmniej jednym `**User Stories:**`?
 - Sprawdź: czy tabelka "Coverage Check vs PRD" pokrywa WSZYSTKIE User Stories?
 
-## 4. Raport
+## 4. Traceability bezpieczeństwa (PRD → HANDOFF)
+
+Otwórz `PRD.md` — wylistuj WSZYSTKIE wymagania bezpieczeństwa z sekcji "Zagrożenia / mini-threat model" i jawnych wymagań security.
+
+Dodaj 9 punktów "Minimum Security Baseline" (obowiązkowe dla każdej aplikacji):
+1. API auth + autoryzacja
+2. Walidacja i sanityzacja inputu
+3. Ochrona przed SQL Injection (ORM/parametryzowane zapytania)
+4. Ochrona przed XSS
+5. Sekrety poza kodem (.env)
+6. CORS restrykcyjny + nagłówki bezpieczeństwa
+7. Hashowanie haseł + TTL sesji (jeśli app ma logowanie)
+8. Rate limiting / ochrona przed brute force
+9. Testy security (negative cases) w każdym stage
+
+Dla KAŻDEGO wymagania sprawdź:
+- Czy jest KONKRETNY task `- [ ]` w sekcji `### Security` lub `### Taski` odpowiedniego stage'u?
+- "Konkretny" = opisuje CO implementować (np. "Rate-limit 10/min na POST /api/listings"), NIE ogólnik ("Zabezpiecz endpoint")
+
+Wygeneruj tabelkę:
+
+| Wymaganie security | Źródło (PRD/Baseline) | Stage | Task w HANDOFF | Status |
+|--------------------|----------------------|-------|----------------|--------|
+| Rate limiting      | PRD: threat model    | ?     | ?              | ✓ / ✗  |
+| Input validation   | Baseline #2          | ?     | ?              | ✓ / ✗  |
+| ...                | ...                  | ...   | ...            | ...    |
+
+Jeśli JAKIEKOLWIEK wymaganie ma Status ✗ → FAIL.
+Wypisz brakujące i zaproponuj konkretne taski do dodania do odpowiednich stage'ów.
+
+## 5. Raport
 
 Wygeneruj krótki raport:
 
@@ -44,11 +74,14 @@ Stage'ów: N
 Struktura OK: X/N stage'ów ma pełną strukturę
 User Stories: X/Y US z PRD pokryte
 Coverage Check: ✓ / ✗
+Security traceability: X/Y wymagań bezpieczeństwa pokryte
 
 Problemy:
 1. [lista braków — jeśli są]
 
 Status: PASS ✓ / FAIL ✗ (napraw przed Phase 3)
 ```
+
+Warunek PASS: struktura OK **ORAZ** coverage OK **ORAZ** security traceability 100%.
 
 Jeśli FAIL — wylistuj dokładnie co trzeba poprawić i zaproponuj konkretne zmiany.

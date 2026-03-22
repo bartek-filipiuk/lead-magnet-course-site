@@ -36,6 +36,10 @@ Teraz uruchom agenta w tym katalogu i wklej:
 Przeczytaj AGENT_INIT_PROMPT.md i ARTIFACT_CHECKLIST.md. Zacznij.
 ```
 
+## Dodatkowe narzędzia
+
+Dodatkowe narzędzia (audyt bezpieczeństwa, scoring, autofix) → https://vibe.devince.dev/audyt/
+
 ## Ważne zasady
 
 - Nie zmieniaj nazw plików.

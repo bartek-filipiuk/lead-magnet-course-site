@@ -16,7 +16,7 @@ Referencyjny dokument artefaktów wymaganych w każdej fazie projektu. AI odwoł
 |------|----------------|---------------------|
 | `TECH_STACK.md` | Technologie z uzasadnieniem, Rozważone alternatywy, Frontend Styling (framework CSS / component library z uzasadnieniem powiązanym z Look & Feel z PRD - lub pominięte jeśli brak frontendu) | User zatwierdził |
 | `STACK_GUIDELINES.md` | Must-have na start, Dobrze dodać później, Otwarte decyzje | Wygenerowany na bazie TECH_STACK.md |
-| `HANDOFF_STAGES_PLAN.md` | Stage 1..N z checkboxami `- [ ]`, Stage 1 = Minimalna działająca aplikacja, Ostatni Stage = Dopracowanie i finalizacja, Każdy Stage ma `**User Stories:**` (referencje do US z PRD), Każdy Stage ma sekcję **Security** (MANDATORY), Każdy Stage ma sekcję **Docs** (MANDATORY), Każdy Stage ma sekcję **Stage Completion** (MANDATORY), Sekcja "Coverage Check vs PRD" na końcu pliku | User zatwierdził, coverage check z PRD passed |
+| `HANDOFF_STAGES_PLAN.md` | Stage 1..N z checkboxami `- [ ]`, Stage 1 = Minimalna działająca aplikacja, Ostatni Stage = Dopracowanie i finalizacja, Każdy Stage ma `**User Stories:**` (referencje do US z PRD), Każdy Stage ma sekcję **Security** (MANDATORY), Każdy Stage ma sekcję **Docs** (MANDATORY), Każdy Stage ma sekcję **Stage Completion** (MANDATORY), Sekcja "Coverage Check vs PRD" na końcu pliku, Sekcja "Security Traceability" na końcu (tabelka mapująca wymagania security z PRD/Baseline na Stage i Task) | User zatwierdził, coverage check z PRD passed, security traceability 100% |
 
 ## Po Phase 3 Stage 1 (Bootstrap)
 

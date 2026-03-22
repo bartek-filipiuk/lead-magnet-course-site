@@ -99,8 +99,9 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
 - [ ] ...
 
 ### Security (MANDATORY w każdym stage):
-- [ ] [Konkretny task security dla scope tego stage'u]
-- [ ] [Test security: negative case]
+- [ ] [Konkretny task security wynikający z PRD threat model lub Minimum Security Baseline — NIE ogólniki]
+- [ ] [Test security: negative case pokrywający powyższy task]
+(Każdy task MUSI mapować się na wymaganie z PRD lub Baseline. Ogólniki typu "zabezpiecz endpoint" to FAIL.)
 
 ### Docs (MANDATORY w każdym stage):
 - [ ] Update docs/CHANGELOG.md
@@ -129,6 +130,13 @@ Jeśli BLOCKER → uzupełnij brakujące i powtórz GATE 1.
    | US-2: [nazwa] | Stage Y + Stage Z |
 
    Ta tabelka służy jako weryfikacja kompletności planu i musi być uzupełniona przed GATE 2.
+6a. **Security Traceability:** Otwórz PRD sekcję "Zagrożenia / mini-threat model" oraz listę "Minimum Security Baseline" (powyżej w tym pliku). Dla KAŻDEGO wymagania bezpieczeństwa sprawdź, czy istnieje KONKRETNY task w sekcji Security odpowiedniego stage'u HANDOFF. Jeśli brakuje — DODAJ brakujący task. Na końcu HANDOFF (po "Coverage Check vs PRD") DODAJ tabelkę "Security Traceability":
+
+   | Wymaganie security | Źródło | Stage | Task |
+   |-------------------|--------|-------|------|
+   | Rate limiting | PRD: threat model | Stage 2 | T4: Rate-limit na POST /listings |
+   | Input validation | Baseline #2 | Stage 1 | T3: Walidacja Pydantic |
+
 6b. Uruchom check struktury HANDOFF: przeczytaj `PROMPT_HANDOFF_CHECK.md` i wykonaj sprawdzenie wygenerowanego `HANDOFF_STAGES_PLAN.md`. Jeśli wykryje braki — napraw ZANIM zapytasz usera o zatwierdzenie.
 7. Zapytaj użytkownika: *"Czy plan jest dla Ciebie jasny i czy możemy przejść do fazy kodowania opartej o testy (Phase 3)?"* Przypomnij, że bez kompletu (`PRD.md`, `TECH_STACK.md`, `HANDOFF_STAGES_PLAN.md`) nie zaczynasz implementacji.
 
@@ -196,6 +204,7 @@ Po zakończeniu Stage N, ZANIM przejdziesz dalej:
 5. Jeśli Stage dodał/zmienił endpoints: otwórz `docs/API.md` i sprawdź czy jest aktualne.
 6. Otwórz `HANDOFF_STAGES_PLAN.md`: czy sekcja "Stage Completion" ma WSZYSTKIE checkboxy `[x]`?
    - Jeśli nie → **BLOCKER:** wykonaj brakujące self-checki i oznacz.
+6b. Otwórz tabelkę "Security Traceability" z HANDOFF: czy taski security przypisane do Stage N mają `[x]`? Jeśli nie → **BLOCKER**.
 7. Sprawdź: czy `docs/API.md` istnieje i nie jest pustym placeholderem (jeśli stage miał endpointy)?
 8. Pokaż: **"STAGE N GATE: checkboxy X/Y ✓, docs updated ✓, git ✓"**
 9. Przypomnij: "Skomituj: `git commit -m 'Stage N done'`"

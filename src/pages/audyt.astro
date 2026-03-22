@@ -8,30 +8,32 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const promptsDir = path.resolve(process.cwd(), "content/prompts");
 
 const scoreContent = fs.readFileSync(path.join(promptsDir, "PROMPT_SCORE.md"), "utf-8").trim();
+const securityAuditContent = fs.readFileSync(path.join(promptsDir, "PROMPT_SECURITY_AUDIT.md"), "utf-8").trim();
 const autofixContent = fs.readFileSync(path.join(promptsDir, "PROMPT_AUTOFIX.md"), "utf-8").trim();
 ---
 
 <BaseLayout
-  title="Audyt projektu — PROMPT_SCORE + PROMPT_AUTOFIX"
-  description="Dwa narzędzia do sprawdzenia stanu projektu AI — wklej prompt do agenta i dostaniesz raport lub automatyczne naprawy."
+  title="Audyt projektu — SCORE + SECURITY AUDIT + AUTOFIX"
+  description="Trzy narzędzia do sprawdzenia stanu projektu AI — scoring, audyt bezpieczeństwa i automatyczne naprawy."
 >
   <section class="hero prompt-hero">
     <h1>Audyt projektu</h1>
     <p class="muted">
-      Dwa narzędzia do sprawdzenia stanu projektu — wklej prompt do agenta AI
-      i dostaniesz raport (SCORE) lub automatyczne naprawy (AUTOFIX).
+      Trzy narzędzia do sprawdzenia stanu projektu — wklej prompt do agenta AI
+      i dostaniesz raport (SCORE), audyt bezpieczenstwa (SECURITY AUDIT) lub automatyczne naprawy (AUTOFIX).
     </p>
   </section>
 
   <!-- Porownanie narzedzi -->
   <section class="info-card">
-    <h2>SCORE vs AUTOFIX — kiedy czego uzyc</h2>
+    <h2>Kiedy czego uzyc</h2>
     <div class="compare-table-wrap">
       <table class="compare-table">
         <thead>
           <tr>
             <th></th>
             <th>PROMPT_SCORE</th>
+            <th>PROMPT_SECURITY_AUDIT</th>
             <th>PROMPT_AUTOFIX</th>
           </tr>
         </thead>
@@ -39,25 +41,30 @@ const autofixContent = fs.readFileSync(path.join(promptsDir, "PROMPT_AUTOFIX.md"
           <tr>
             <td class="compare-label">Co robi</td>
             <td>Read-only raport z wynikiem 0-100</td>
+            <td>Audyt security: PRD vs kod</td>
             <td>Autonomiczne naprawy commit po commicie</td>
           </tr>
           <tr>
             <td class="compare-label">Czas</td>
             <td>1-3 min</td>
+            <td>3-8 min</td>
             <td>5-20 min</td>
           </tr>
           <tr>
             <td class="compare-label">Modyfikuje pliki</td>
+            <td>Nie</td>
             <td>Nie</td>
             <td>Tak (kazdy fix = osobny commit)</td>
           </tr>
           <tr>
             <td class="compare-label">Kiedy uzyc</td>
             <td>Szybki check — chcesz wiedziec gdzie stoisz</td>
+            <td>Weryfikacja security — czy PRD zgadza sie z kodem</td>
             <td>Pelna naprawa — chcesz podniesc score</td>
           </tr>
           <tr>
             <td class="compare-label">Mozna cofnac</td>
+            <td>Nic do cofania (nic nie zmienia)</td>
             <td>Nic do cofania (nic nie zmienia)</td>
             <td>Tak — <code>git revert</code> lub <code>git reset</code></td>
           </tr>
@@ -121,6 +128,69 @@ const autofixContent = fs.readFileSync(path.join(promptsDir, "PROMPT_AUTOFIX.md"
     <details class="prompt-details">
       <summary>Pokaz pelna tresc prompta</summary>
       <pre class="prompt-pre" id="content-prompt-score"><code>{scoreContent}</code></pre>
+    </details>
+  </section>
+
+  <!-- PROMPT_SECURITY_AUDIT -->
+  <section class="info-card prompt-file-section" id="prompt-security-audit">
+    <div class="prompt-file-header">
+      <div>
+        <h2>PROMPT_SECURITY_AUDIT.md</h2>
+        <p class="muted">
+          Niezalezny audyt bezpieczenstwa. Sprawdza czy wymagania z PRD i Minimum Security
+          Baseline sa faktycznie zaimplementowane w kodzie i pokryte testami.
+        </p>
+      </div>
+      <div class="btn-group">
+        <button
+          class="copy-btn"
+          data-target="prompt-security-audit"
+          aria-label="Skopiuj PROMPT_SECURITY_AUDIT.md"
+        >
+          <span class="copy-btn__icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </span>
+          <span class="copy-btn__label">Kopiuj</span>
+        </button>
+        <a class="download-btn" href="/prompts/PROMPT_SECURITY_AUDIT.md" target="_blank" rel="noreferrer">Pobierz</a>
+      </div>
+    </div>
+
+    <h3>Przykladowy raport</h3>
+    <pre class="prompt-pre mockup-pre"><code>{`═══════════════════════════════════════════════════
+  SECURITY AUDIT
+  Data: 2026-03-22
+  Projekt: local-marketplace
+═══════════════════════════════════════════════════
+
+  Wymagan security: 12
+  Pokryte w HANDOFF: 9/12
+  Pokryte w kodzie:  8/12
+  Pokryte w testach: 6/12
+  Luki krytyczne: 2
+
+  ─── Szczegoly ───
+
+  #  Wymaganie          HANDOFF  Kod          Test
+  1. Rate limiting       BRAK    BRAK         BRAK     ← KRYTYCZNE
+  2. OCR walidacja       BRAK    BRAK         BRAK     ← KRYTYCZNE
+  3. Input sanitization  [x]     CZESCIOWO    BRAK
+  4. API auth            [x]     OK           OK
+  5. SQL injection       [x]     OK           OK
+  6. XSS prevention      [x]     OK           OK
+  7. Secrets management  [x]     OK           BRAK
+  8. CORS config         [x]     OK           BRAK
+
+  ─── Rekomendacje ───
+
+  1. Dodaj rate-limit middleware na POST /api/listings
+  2. Wspoldziel walidacje uploadu z endpointem OCR
+  3. Dodaj testy security dla CORS i secrets
+═══════════════════════════════════════════════════`}</code></pre>
+
+    <details class="prompt-details">
+      <summary>Pokaz pelna tresc prompta</summary>
+      <pre class="prompt-pre" id="content-prompt-security-audit"><code>{securityAuditContent}</code></pre>
     </details>
   </section>
 
@@ -192,6 +262,9 @@ const autofixContent = fs.readFileSync(path.join(promptsDir, "PROMPT_AUTOFIX.md"
 
     <h3>SCORE — szybki odczyt</h3>
     <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj PROMPT_SCORE.md i oblicz score.</code></pre>
+
+    <h3>SECURITY AUDIT — audyt bezpieczenstwa</h3>
+    <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj PROMPT_SECURITY_AUDIT.md i wykonaj audyt bezpieczenstwa.</code></pre>
 
     <h3>AUTOFIX — pelna naprawa</h3>
     <pre class="prompt-pre prompt-pre--short"><code>Przeczytaj PROMPT_AUTOFIX.md i wykonaj pelna sesje autofix.</code></pre>
