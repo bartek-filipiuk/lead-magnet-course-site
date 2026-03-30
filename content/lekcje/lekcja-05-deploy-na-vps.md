@@ -364,7 +364,7 @@ Prompty z Lekcji 1-2 to uproszczona wersja. Pełny system (12 plików, vertical 
 
 ### 3. YouTube
 Pokazuję cały proces na żywo - publiczne budowanie. Screencasty z budowania, wdrożeń i przeglądu kodu AI:
-**[@devince na YouTube](https://youtube.com/@devince)**
+**[@bartfilipiuk na YouTube](https://www.youtube.com/@bartfilipiuk/videos)**
 
 ### 4. Newsletter
 Cotygodniowy newsletter z tipami o AI development, vibe codingu i budowaniu side projectów:
