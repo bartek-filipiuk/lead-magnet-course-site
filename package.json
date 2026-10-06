@@ -18,5 +18,12 @@
   "devDependencies": {
     "playwright": "^1.51.0",
     "typescript": "^5.8.2"
+  },
+  "packageManager": "pnpm@10.24.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }
