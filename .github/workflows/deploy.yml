@@ -11,10 +11,20 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message != ''
 
     steps:
+      # The Coolify API is reachable only over Tailscale; the runner joins the
+      # tailnet as an ephemeral tag:ci node for this job.
+      - name: Join tailnet
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+          ping: 100.126.180.51
+
       - name: Trigger Coolify Deployment
         id: deploy
         run: |
-          response=$(curl -s -w "\n%{http_code}" \
+          response=$(curl -s -X POST -w "\n%{http_code}" \
             -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
             -H "Accept: application/json" \
             "${{ secrets.COOLIFY_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_APP_UUID }}")
